@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            min-height: 500vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        #backgroundCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #lifeformCanvas2 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1200px;
+            height: 1200px;
+            z-index: 1;
+            pointer-events: none;
+            transition: transform 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out;
+            overflow: visible; /* 允许内容超出canvas边界 */
+        }
+
+        /* 情绪板块样式 */
+        .emotion-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+
+        .emotion-section-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, transform, filter;
+        }
+
+        .emotion-section-content.fade-out {
+            opacity: 0;
+            transform: translateY(30px) scale(0.96);
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .emotion-section-content.fade-in {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        .emotion-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .emotion-section h2:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        .emotion-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.7;
+        }
+
+        /* 导航栏目样式 */
+        .nav-items {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .nav-item {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            text-shadow: none;
+            text-decoration: none;
+        }
+
+        .nav-item:active {
+            transform: translateY(0);
+        }
+
+        /* Web3风格的发光效果 */
+        .nav-item::before {
+            content: none;
+        }
+
+        /* Contact Intro */
+        .contact-home-intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 1.5rem auto 2rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            white-space: pre-line;
+            font-size: 1.1rem;
+        }
+
+        /* Contact Logos */
+        .emotion-section[data-emotion="contact"] .contact-logos {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(60px, 1fr));
+            justify-items: center;
+            align-items: center;
+            gap: 1rem 2rem;
+            margin: 1.25rem auto 0;
+            max-width: 300px;
+            justify-content: center;
+        }
+
+        .emotion-section[data-emotion="contact"] .contact-logo-link {
+            padding: 0.45rem;
+        }
+
+        .emotion-section[data-emotion="contact"] .contact-logo {
+            width: 29px;
+            height: 29px;
+        }
+
+        @media (max-width: 640px) {
+            .emotion-section[data-emotion="contact"] .contact-logos {
+                grid-template-columns: repeat(3, minmax(60px, 1fr));
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .emotion-section[data-emotion="contact"] .contact-logos {
+                grid-template-columns: repeat(2, minmax(60px, 1fr));
+            }
+        }
+
+        .contact-email-note {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .contact-email-note.hidden {
+            display: none;
+        }
+
+        .contact-email-link {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            text-transform: lowercase;
+        }
+
+        .contact-email-link:hover,
+        .contact-email-link:focus-visible {
+            text-decoration: underline;
+        }
+
+        .copy-email-btn {
+            align-self: center;
+            padding: 0.45rem 1.15rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .copy-email-btn:hover,
+        .copy-email-btn:focus-visible {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.45);
+            color: #ffffff;
+        }
+
+        .contact-email-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1.5rem;
+        }
+
+        .contact-email-modal.open {
+            display: flex;
+        }
+
+        .contact-email-content {
+            background: rgba(15, 15, 15, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 1.75rem;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .contact-email-content h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .contact-email-address {
+            font-size: 1.05rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.95);
+            word-break: break-word;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-action-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .modal-action-btn:hover,
+        .modal-action-btn:focus-visible {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.45);
+            color: #ffffff;
+        }
+
+        .modal-close-btn {
+            align-self: center;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.9rem;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .modal-close-btn:hover,
+        .modal-close-btn:focus-visible {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-logo-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.82);
+            opacity: 0.82;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .contact-logo-link:hover,
+        .contact-logo-link:focus-visible {
+            color: rgba(255, 255, 255, 0.98);
+            opacity: 1;
+        }
+
+        .contact-logo {
+            width: 24px;
+            height: 24px;
+            display: block;
+            fill: currentColor;
+            stroke: none;
+            opacity: 0.85;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-logo * {
+            fill: currentColor;
+            stroke: none;
+        }
+
+        .contact-logo-link:hover .contact-logo,
+        .contact-logo-link:focus-visible .contact-logo {
+            opacity: 1;
+        }
+
+        /* 各板块特定样式 */
+        .emotion-section[data-emotion="hero"],
+        .emotion-section[data-emotion="work"],
+        .emotion-section[data-emotion="about"],
+        .emotion-section[data-emotion="contact"],
+        .emotion-section[data-emotion="insight"] {
+            background: transparent;
+            position: relative;
+        }
+
+        /* CODE遮罩层样式 */
+        .code-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .code-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* CODE输入界面样式 */
+        .code-input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .code-prompt {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .code-input {
+            width: 300px;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 0 0 20px rgba(0, 255, 150, 0.1),
+                        inset 0 0 20px rgba(0, 255, 150, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            letter-spacing: 2px;
+            outline: none;
+        }
+
+        .code-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .code-input:focus {
+            border-color: rgba(0, 255, 150, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 150, 0.2),
+                        inset 0 0 20px rgba(0, 255, 150, 0.1);
+            transform: translateY(-2px);
+        }
+
+
+        .code-error {
+            font-size: 0.9rem;
+            color: rgba(255, 100, 100, 0.8);
+            margin: 0;
+            min-height: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .code-error.show {
+            opacity: 1;
+        }
+
+        .private-content {
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 生命进度玻璃效果进度条 */
+        .life-progress-container {
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .life-progress-bar {
+            position: relative;
+            width: 100%;
+            height: 16px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 0 20px rgba(0, 255, 150, 0.1),
+                        inset 0 0 20px rgba(0, 255, 150, 0.05),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* 磨砂纹理效果 */
+        .life-progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, 
+                    rgba(255, 255, 255, 0.03) 0px, 
+                    transparent 1px, 
+                    transparent 2px, 
+                    rgba(255, 255, 255, 0.03) 3px),
+                repeating-linear-gradient(90deg, 
+                    rgba(255, 255, 255, 0.03) 0px, 
+                    transparent 1px, 
+                    transparent 2px, 
+                    rgba(255, 255, 255, 0.03) 3px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .life-progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, 
+                rgba(0, 255, 150, 0.6) 0%,
+                rgba(0, 255, 150, 0.4) 50%,
+                rgba(0, 255, 150, 0.2) 100%);
+            border-radius: 12px;
+            transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px rgba(0, 255, 150, 0.3),
+                        inset 0 0 10px rgba(0, 255, 150, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 2;
+        }
+
+        /* 填充部分的磨砂效果 */
+        .life-progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, 
+                    rgba(255, 255, 255, 0.05) 0px, 
+                    transparent 1px, 
+                    transparent 2px, 
+                    rgba(255, 255, 255, 0.05) 3px),
+                repeating-linear-gradient(90deg, 
+                    rgba(255, 255, 255, 0.05) 0px, 
+                    transparent 1px, 
+                    transparent 2px, 
+                    rgba(255, 255, 255, 0.05) 3px);
+            opacity: 0.5;
+            pointer-events: none;
+            border-radius: 12px;
+        }
+
+        .life-progress-remaining {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(90deg,
+                rgba(150, 150, 150, 0.1) 0%,
+                rgba(100, 100, 100, 0.05) 100%);
+            border-radius: 0 12px 12px 0;
+            transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1;
+        }
+
+        /* 不同情绪版的颜色主题 */
+        .emotion-section[data-emotion="hero"] .life-progress-fill {
+            background: linear-gradient(90deg,
+                rgba(0, 100, 200, 0.6) 0%,
+                rgba(0, 150, 255, 0.4) 50%,
+                rgba(100, 200, 255, 0.2) 100%);
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.3),
+                        inset 0 0 10px rgba(0, 150, 255, 0.2);
+        }
+
+        .emotion-section[data-emotion="work"] .life-progress-fill {
+            background: linear-gradient(90deg,
+                rgba(255, 120, 0, 0.6) 0%,
+                rgba(255, 150, 30, 0.4) 50%,
+                rgba(255, 180, 60, 0.2) 100%);
+            box-shadow: 0 0 15px rgba(255, 150, 30, 0.3),
+                        inset 0 0 10px rgba(255, 150, 30, 0.2);
+        }
+
+        .emotion-section[data-emotion="about"] .life-progress-fill {
+            background: linear-gradient(90deg,
+                rgba(255, 100, 150, 0.6) 0%,
+                rgba(255, 130, 180, 0.4) 50%,
+                rgba(255, 160, 200, 0.2) 100%);
+            box-shadow: 0 0 15px rgba(255, 130, 180, 0.3),
+                        inset 0 0 10px rgba(255, 130, 180, 0.2);
+        }
+
+        .emotion-section[data-emotion="contact"] .life-progress-fill {
+            background: linear-gradient(90deg,
+                rgba(0, 255, 150, 0.6) 0%,
+                rgba(50, 255, 200, 0.4) 50%,
+                rgba(100, 255, 220, 0.2) 100%);
+            box-shadow: 0 0 15px rgba(0, 255, 150, 0.3),
+                        inset 0 0 10px rgba(0, 255, 150, 0.2);
+        }
+
+        .emotion-section[data-emotion="insight"] .life-progress-fill {
+            background: linear-gradient(90deg,
+                rgba(150, 100, 200, 0.6) 0%,
+                rgba(180, 130, 220, 0.4) 50%,
+                rgba(200, 160, 240, 0.2) 100%);
+            box-shadow: 0 0 15px rgba(180, 130, 220, 0.3),
+                        inset 0 0 10px rgba(180, 130, 220, 0.2);
+        }
+    </style>
+    <script src="js/languages.js"></script>
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    <canvas id="lifeformCanvas2"></canvas>
+
+    <!-- Language Switcher -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <div class="dropdown" id="navBrand">
+            <a href="#" class="nav-link" id="brandLink" style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: bold; font-size: 1.2rem; cursor: pointer;">PETER</a>
+            <div class="dropdown-menu" id="languageMenu" style="position: absolute; top: 100%; left: 0; background: rgba(0,0,0,0.9); padding: 0.5rem; border-radius: 5px; min-width: 120px; margin-top: 0.5rem; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease;">
+                <a href="#" class="dropdown-item" data-lang="en" data-name="PETER" style="display: block; color: rgba(255,255,255,0.9); padding: 0.5rem; text-decoration: none; border-radius: 3px;">PETER</a>
+                <a href="#" class="dropdown-item" data-lang="es" data-name="PEDRO" style="display: block; color: rgba(255,255,255,0.9); padding: 0.5rem; text-decoration: none; border-radius: 3px;">PEDRO</a>
+                <a href="#" class="dropdown-item" data-lang="ar" data-name="بطرس" style="display: block; color: rgba(255,255,255,0.9); padding: 0.5rem; text-decoration: none; border-radius: 3px;">بطرس</a>
+                <a href="#" class="dropdown-item" data-lang="zh" data-name="皮特" style="display: block; color: rgba(255,255,255,0.9); padding: 0.5rem; text-decoration: none; border-radius: 3px;">皮特</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 情绪板块结构 -->
+    <section class="emotion-section" data-emotion="hero" id="section-hero">
+        <div class="emotion-section-content">
+            <h2 data-i18n="home.hero.introTitle">PETER LIN</h2>
+            <div class="nav-items">
+                <a class="nav-item" href="design.html" data-i18n="nav.designer">DESIGN</a>
+                <a class="nav-item" href="backpacker.html" data-i18n="nav.backpacker">TRAVEL</a>
+                <a class="nav-item" href="art.html" data-i18n="nav.art">ART</a>
+            </div>
+            <div class="life-progress-container">
+                <div class="life-progress-bar">
+                    <div class="life-progress-fill"></div>
+                    <div class="life-progress-remaining"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="emotion-section" data-emotion="work" id="section-work">
+        <div class="emotion-section-content">
+            <h2 data-i18n="homePage.sections.designerTitle" onclick="window.location.href='design.html'" style="cursor: pointer;">DESIGNER</h2>
+            <p data-i18n="homePage.sections.designerSubtitle">Storytelling · Creative · Critical</p>
+        </div>
+    </section>
+
+    <section class="emotion-section" data-emotion="about" id="section-about">
+        <div class="emotion-section-content">
+            <h2 data-i18n="homePage.sections.backpackerTitle" onclick="window.location.href='backpacker.html'" style="cursor: pointer;">BACKPACKER</h2>
+            <p data-i18n="homePage.sections.backpackerSubtitle">Adventurous · Observant · Adaptive</p>
+        </div>
+    </section>
+
+    <section class="emotion-section" data-emotion="contact" id="section-contact">
+        <div class="emotion-section-content">
+            <h2 data-i18n="nav.contact" onclick="window.location.href='contact.html'" style="cursor: pointer;">CONTACT</h2>
+            <p class="contact-home-intro" data-i18n="contact.homeIntro">If you'd like to reach out, collaborate, or simply exchange ideas, I'm here.
+
+Together, perhaps we can form a small island of meaning amid the noise.</p>
+            <div class="contact-logos contact-logos--dark">
+                <a class="contact-logo-link contact-email-trigger" href="#" aria-label="Email">
+                    <svg class="contact-logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M6 14h36a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2zm0 2v.4l18 11 18-11V16H6zm36 18V19.7L24 30 6 19.7V34h36z"/>
+                    </svg>
+                </a>
+                <a class="contact-logo-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M15 11c-3.3 0-6 2.7-6 6v14c0 3.3 2.7 6 6 6h18c3.3 0 6-2.7 6-6V17c0-3.3-2.7-6-6-6H15Zm0 3h18c1.7 0 3 1.3 3 3v14c0 1.7-1.3 3-3 3H15c-1.7 0-3-1.3-3-3V17c0-1.7 1.3-3 3-3Zm9 4.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13Zm11.5-4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"></path>
+                </svg>
+                </a>
+                <a class="contact-logo-link" href="https://www.behance.net/pedrolam" target="_blank" rel="noopener noreferrer" aria-label="Behance">
+                    <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M12 14h11.5c5 0 8.8 2.9 8.8 7.1 0 2.6-1.4 4.7-3.7 5.9 3.2 1 5.5 3.9 5.5 7.4 0 5.1-4.1 8.6-9.7 8.6H12V14Zm10.5 11.1c2 0 3.6-1.2 3.6-3s-1.6-3-3.6-3H16v6h6.5Zm1.3 12.8c2.3 0 4.1-1.5 4.1-3.6 0-2.1-1.8-3.5-4.1-3.5H16v7.1h7.8Z"></path>
+                        <path fill="currentColor" d="M34 18h10v3.5H34z"></path>
+                        <path fill="currentColor" d="M34 24h7.2c4.5 0 8.8 3.3 8.8 8.4S45.7 41 41.2 41H34V24Zm7.3 12c1.8 0 3.1-1.4 3.1-3.4s-1.3-3.4-3.1-3.4h-3.3v6.8h3.3Z"></path>
+                </svg>
+                </a>
+                <a class="contact-logo-link" href="https://wechat.com" target="_blank" rel="noopener noreferrer" aria-label="WeChat">
+                    <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M30 12c-7.5 0-13.5 4.8-13.5 10.8 0 3.2 1.7 6 4.5 8l-1.2 4.1 4.3-2.7c1.8.5 3.6.8 5.9.8 7.5 0 13.5-4.8 13.5-10.8S37.5 12 30 12ZM24 18.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path>
+                        <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M17.7 26.8c-6.8 0-12.2 4.3-12.2 9.8 0 2.8 1.3 5.3 3.7 7.1l-.9 3.1 4.1-2.4c1.7.4 3.3.6 5 .6 6.8 0 12.2-4.3 12.2-9.8s-5.4-8.4-12.2-8.4ZM13.2 33.7a1.8 1.8 0 1 0 0 3.7 1.8 1.8 0 0 0 0-3.7Zm7 0a1.8 1.8 0 1 0 0 3.7 1.8 1.8 0 0 0 0-3.7Z"></path>
+                    </svg>
+                </a>
+                <a class="contact-logo-link" href="https://github.com/CHAOQUNlin/Peter-lin" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M24 7c-8.8 0-16 7.3-16 16.2 0 7.2 4.6 13.3 10.9 15.5.8.2 1.1-.3 1.1-.8v-3.4c-3.7.8-4.5-1.8-4.5-1.8-.7-1.7-1.6-2.2-1.6-2.2-1.3-.9.1-.9.1-.9 1.5.1 2.4 1.6 2.4 1.6 1.3 2.3 3.4 1.6 4.2 1.2.1-.9.5-1.6.9-2-3.3-.4-6.7-1.7-6.7-7.2 0-1.6.5-2.9 1.5-3.9-.2-.4-.7-1.9.1-3.9 0 0 1.3-.4 4.2 1.6 1.2-.3 2.4-.4 3.6-.4s2.4.1 3.6.4c3-2 4.2-1.6 4.2-1.6.8 2 .3 3.5.1 3.9 1 .9 1.5 2.3 1.5 3.9 0 5.5-3.4 6.8-6.7 7.2.5.5.9 1.4.9 2.9v4.2c0 .5.3 1 1.1.8C35.4 36.5 40 30.4 40 23.2 40 14.3 32.8 7 24 7Z"></path>
+                    </svg>
+                </a>
+                <a class="contact-logo-link" href="https://onlyfans.com/peterlin" target="_blank" rel="noopener noreferrer" aria-label="OnlyFans" data-haram="true">
+                    <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M24 10c-7.7 0-14 6.3-14 14s6.3 14 14 14 14-6.3 14-14-6.3-14-14-14Zm0 4.2c5.4 0 9.8 4.6 9.8 10.3 0 .5 0 1-.1 1.5h4.5v4.4h-7.2c-1.8 2.5-4.6 4.1-7.4 4.1-5.4 0-9.8-4.6-9.8-10.3s4.4-10 9.8-10Zm-.2 6.8c-2.8 0-5 2.3-5 5.1s2.2 5.1 5 5.1 5-2.3 5-5.1-2.2-5.1-5-5.1Zm11.5-4.4-7.6 9.5h4.6c.3-.6.5-1.6.5-2.4 0-2.8-1-5.2-2.5-7.1Z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="emotion-section" data-emotion="insight" id="section-insight">
+        <div class="emotion-section-content">
+            <h2 data-i18n="homePage.sections.insightTitle">Insight</h2>
+            <!-- 私域内容 -->
+            <div class="private-content" id="privateContent">
+                <p data-i18n="homePage.sections.insightSubtitle">Deep · Reflective · Mysterious</p>
+            </div>
+        </div>
+        <!-- CODE遮罩层（默认显示） -->
+        <div class="code-overlay" id="codeOverlay">
+            <div class="code-input-container">
+                <p class="code-prompt" data-i18n="homePage.code.prompt">Please enter access code</p>
+                <input type="text" class="code-input" id="codeInput" placeholder="Enter CODE" autocomplete="off" data-i18n-placeholder="homePage.code.placeholder">
+                <p class="code-error" id="codeError"></p>
+            </div>
+        </div>
+    </section>
+
+    <div class="contact-email-modal" id="contactEmailModal">
+        <div class="contact-email-content">
+            <h3 data-i18n="homePage.modal.title">EMAIL CONTACT</h3>
+            <p class="contact-email-address">boutros@myyahoo.com</p>
+            <div class="modal-actions">
+                <button class="modal-action-btn copy-email-btn" type="button" data-email="boutros@myyahoo.com" data-i18n="homePage.modal.copy">Copy Email</button>
+                <button class="modal-action-btn modal-mail-btn" type="button" data-i18n="homePage.modal.openMail">Open Email App</button>
+            </div>
+            <button class="modal-close-btn" type="button" data-i18n="homePage.modal.close">Close</button>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            window.scrollTo(0, 0);
+        });
+    </script>
+    <script>
+        function translate(key, fallback) {
+            if (typeof LanguageManager !== 'undefined') {
+                const value = LanguageManager.getTranslation(key);
+                if (value) {
+                    return value;
+                }
+            }
+            return fallback;
+        }
+
+        // ========== 生命进度计算 ==========
+        function calculateLifeProgress() {
+            // 出生日期：1996年（2024-28=1996，28岁）
+            const birthDate = new Date('1996-01-01');
+            // 预期寿命（年）
+            const lifeExpectancy = 85;
+            
+            const now = new Date();
+            const ageInMs = now - birthDate;
+            const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
+            const totalLifeInMs = lifeExpectancy * 365.25 * 24 * 60 * 60 * 1000;
+            
+            // 计算已活时间的百分比（28/85 ≈ 32.9%）
+            const progressPercent = Math.min(100, Math.max(0, (ageInMs / totalLifeInMs) * 100));
+            
+            return {
+                progress: progressPercent,
+                age: ageInYears,
+                remaining: 100 - progressPercent
+            };
+        }
+
+        // 初始化生命进度条
+        function initLifeProgressBars() {
+            const lifeData = calculateLifeProgress();
+            const progressBars = document.querySelectorAll('.life-progress-fill');
+            const remainingBars = document.querySelectorAll('.life-progress-remaining');
+            
+            progressBars.forEach(bar => {
+                // 初始宽度为0
+                bar.style.width = '0%';
+                // 使用requestAnimationFrame确保初始状态已渲染
+                requestAnimationFrame(() => {
+                    // 触发过渡动画，从0%到实际进度
+                    bar.style.width = `${lifeData.progress}%`;
+                });
+            });
+            
+            remainingBars.forEach(bar => {
+                // 初始宽度为100%（剩余部分）
+                bar.style.width = '100%';
+                // 延迟设置剩余部分，等填充动画完成
+                setTimeout(() => {
+                    bar.style.width = `${lifeData.remaining}%`;
+                }, 50);
+            });
+        }
+
+        // 占位函数（保留以防其他模块引用）
+        function initNavItems() {}
+
+        function initEmailModal() {
+            const emailTrigger = document.querySelector('.contact-email-trigger');
+            const emailModal = document.getElementById('contactEmailModal');
+            const copyButton = document.querySelector('.copy-email-btn');
+            const closeButton = document.querySelector('.modal-close-btn');
+            const mailButton = document.querySelector('.modal-mail-btn');
+            const emailAddress = copyButton?.dataset.email || 'boutros@myyahoo.com';
+
+            if (!emailTrigger || !emailModal || !copyButton) {
+                return;
+            }
+
+            const openModal = () => {
+                emailModal.classList.add('open');
+            };
+
+            const closeModal = () => {
+                emailModal.classList.remove('open');
+            };
+
+            emailTrigger.addEventListener('click', (event) => {
+                event.preventDefault();
+                openModal();
+            });
+
+            copyButton.addEventListener('click', () => {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(emailAddress)
+                        .then(() => indicateCopySuccess(copyButton))
+                        .catch(() => fallbackCopy(emailAddress, copyButton));
+                } else {
+                    fallbackCopy(emailAddress, copyButton);
+                }
+            });
+
+            mailButton?.addEventListener('click', () => {
+                window.location.href = `mailto:${emailAddress}`;
+            });
+
+            closeButton?.addEventListener('click', closeModal);
+            emailModal.addEventListener('click', (event) => {
+                if (event.target === emailModal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && emailModal.classList.contains('open')) {
+                    closeModal();
+                }
+            });
+        }
+
+        function fallbackCopy(emailAddress, button) {
+            const textarea = document.createElement('textarea');
+            textarea.value = emailAddress;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                indicateCopySuccess(button);
+            } catch (err) {
+                alert(`请手动复制：${emailAddress}`);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function indicateCopySuccess(button) {
+            const originalText = button.textContent;
+            button.textContent = '已复制';
+            button.disabled = true;
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 1600);
+        }
+
+        // ========== 私域入口CODE验证 ==========
+        const PRIVATE_CODE = 'INSIGHT2024'; // CODE值（用户可修改）
+
+        // 检查CODE访问权限
+        function checkCodeAccess() {
+            const hasAccess = localStorage.getItem('insight_access') === 'granted';
+            return hasAccess;
+        }
+
+        // 验证CODE
+        function verifyCode() {
+            const codeInput = document.getElementById('codeInput');
+            const codeError = document.getElementById('codeError');
+            const codeOverlay = document.getElementById('codeOverlay');
+            
+            const inputCode = codeInput.value.trim();
+            
+            if (inputCode === PRIVATE_CODE) {
+                // 验证成功
+                localStorage.setItem('insight_access', 'granted');
+                hideCodeOverlay();
+                codeError.textContent = '';
+                codeError.classList.remove('show');
+            } else {
+                // 验证失败
+                codeError.textContent = 'CODE错误，请重试';
+                codeError.classList.add('show');
+                codeInput.value = '';
+                codeInput.focus();
+                
+                // 3秒后隐藏错误提示
+                setTimeout(() => {
+                    codeError.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // 隐藏遮罩层
+        function hideCodeOverlay() {
+            const codeOverlay = document.getElementById('codeOverlay');
+            if (codeOverlay) {
+                codeOverlay.classList.add('hidden');
+            }
+        }
+
+        // 显示遮罩层
+        function showCodeOverlay() {
+            const codeOverlay = document.getElementById('codeOverlay');
+            if (codeOverlay) {
+                codeOverlay.classList.remove('hidden');
+            }
+        }
+
+        // 初始化CODE验证系统
+        function initCodeVerification() {
+            // 检查是否已有访问权限
+            if (checkCodeAccess()) {
+                hideCodeOverlay();
+            } else {
+                // 显示遮罩层和输入界面
+                const codeInput = document.getElementById('codeInput');
+                
+                // 添加回车键提交
+                codeInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        verifyCode();
+                    }
+                });
+                
+                // 添加失焦自动验证
+                codeInput.addEventListener('blur', function() {
+                    if (this.value.trim() !== '') {
+                        verifyCode();
+                    }
+                });
+                
+                // 聚焦输入框
+                codeInput.focus();
+            }
+        }
+
+        // ========== 5种核心情绪状态定义 ==========
+        const emotionStates = {
+            hero: {
+                name: 'hero',
+                rotationSpeed: 0.003,
+                intensity: 0.9,
+                motionSpeed: 0.5,
+                motionType: 'radial',
+                connectionLifetime: 1.0,
+                connectionThickness: 1.5,
+                colorBase: { r: 0, g: 15, b: 8 },
+                colorAccent: { r: 0, g: 30, b: 15 },
+                colorGradient: {
+                    start: { r: 0, g: 10, b: 5 },
+                    mid: { r: 0, g: 20, b: 10 },
+                    end: { r: 0, g: 30, b: 15 }
+                },
+                lifeformColorGradient: {
+                    start: { r: 120, g: 0, b: 100 },  // 深紫色
+                    mid: { r: 150, g: 30, b: 120 },   // 暗紫色
+                    end: { r: 180, g: 50, b: 150 }    // 暖紫色
+                },
+                shape: 'cube',
+                gridSize: 6,
+                radius: 300, // 超过屏幕作为背景，暗示无边界
+                position: { x: 50, y: 50 }, // 中心位置，让生命体向四周延伸
+                opacity: 0.80, // 生命体透明度：中等偏深
+                bgOpacity: 0.95 // 背景透明度：较深
+            },
+            work: {
+                name: 'work',
+                rotationSpeed: 0.012,
+                intensity: 1.3,
+                motionSpeed: 1.8,
+                motionType: 'random',
+                connectionLifetime: 0.4,
+                connectionThickness: 1.2,
+                colorBase: { r: 0, g: 12, b: 6 },
+                colorAccent: { r: 0, g: 25, b: 12 },
+                colorGradient: {
+                    start: { r: 0, g: 10, b: 5 },
+                    mid: { r: 0, g: 18, b: 9 },
+                    end: { r: 0, g: 25, b: 12 }
+                },
+                lifeformColorGradient: {
+                    start: { r: 200, g: 80, b: 0 },   // 暗橙色
+                    mid: { r: 230, g: 100, b: 20 },   // 橙红色
+                    end: { r: 255, g: 120, b: 30 }    // 亮橙色
+                },
+                shape: 'torus',
+                gridSize: 10,
+                radius: 120,
+                position: { x: 45, y: 50 }, // 中间偏左一点
+                opacity: 0.75, // 生命体透明度：中等
+                bgOpacity: 0.90 // 背景透明度：中等
+            },
+            about: {
+                name: 'about',
+                rotationSpeed: 0.002,
+                intensity: 0.85,
+                motionSpeed: 0.4,
+                motionType: 'organic',
+                connectionLifetime: 2.5,
+                connectionThickness: 1.8,
+                colorBase: { r: 0, g: 18, b: 9 },
+                colorAccent: { r: 0, g: 28, b: 14 },
+                colorGradient: {
+                    start: { r: 0, g: 12, b: 6 },
+                    mid: { r: 0, g: 20, b: 10 },
+                    end: { r: 0, g: 28, b: 14 }
+                },
+                lifeformColorGradient: {
+                    start: { r: 150, g: 0, b: 20 },   // 深红色
+                    mid: { r: 180, g: 20, b: 40 },    // 暗红色
+                    end: { r: 200, g: 30, b: 50 }     // 亮红色
+                },
+                shape: 'sphere',
+                gridSize: 8,
+                radius: 100,
+                position: { x: 30, y: 50 }, // 偏左位置
+                opacity: 0.85, // 生命体透明度：较深
+                bgOpacity: 0.92 // 背景透明度：中等偏深
+            },
+            contact: {
+                name: 'contact',
+                rotationSpeed: 0.008,
+                intensity: 1.1,
+                motionSpeed: 1.2,
+                motionType: 'convergent',
+                connectionLifetime: 0.6,
+                connectionThickness: 1.4,
+                colorBase: { r: 0, g: 30, b: 15 },
+                colorAccent: { r: 0, g: 45, b: 22 },
+                colorGradient: {
+                    start: { r: 0, g: 0, b: 0 },   // 全黑
+                    mid: { r: 0, g: 0, b: 0 },     // 全黑
+                    end: { r: 0, g: 0, b: 0 }       // 全黑
+                },
+                lifeformColorGradient: {
+                    start: { r: 0, g: 150, b: 200 },  // 暗青色
+                    mid: { r: 30, g: 170, b: 220 },   // 青蓝色
+                    end: { r: 50, g: 200, b: 255 }    // 亮青色
+                },
+                shape: 'cluster',
+                gridSize: 12,
+                radius: 80,
+                position: { x: 55, y: 50 }, // 移到稍微中心一点
+                opacity: 0.70, // 生命体透明度：较浅
+                bgOpacity: 1.0 // 背景透明度：完全不透明，确保全黑
+            },
+            insight: {
+                name: 'insight',
+                rotationSpeed: 0.001,
+                intensity: 0.75,
+                motionSpeed: 0.25,
+                motionType: 'grid',
+                connectionLifetime: 3.0,
+                connectionThickness: 2.0,
+                colorBase: { r: 0, g: 35, b: 18 },
+                colorAccent: { r: 0, g: 50, b: 25 },
+                colorGradient: {
+                    // 从 Contact 的 endColor 开始，逐渐关灯变黑
+                    start: { r: 0, g: 15, b: 8 },    // Contact 的 endColor
+                    mid:   { r: 0, g: 8,  b: 4 },    // 过渡变暗
+                    end:   { r: 0, g: 2,  b: 1 }     // 深黑
+                },
+                lifeformColorGradient: {
+                    start: { r: 200, g: 150, b: 0 },  // 暗金黄色
+                    mid: { r: 230, g: 180, b: 30 },   // 金黄色
+                    end: { r: 255, g: 200, b: 50 }    // 亮黄色
+                },
+                shape: 'cube',
+                gridSize: 5,
+                radius: 110,
+                position: { x: 50, y: 40 },
+                opacity: 0.65, // 生命体透明度：最浅
+                bgOpacity: 0.80 // 背景透明度：最浅
+            }
+        };
+
+        // ========== 背景Canvas ==========
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 当前背景颜色状态
+        let currentBgState = {
+            colorGradient: emotionStates.hero.colorGradient,
+            bgOpacity: emotionStates.hero.bgOpacity || 0.95
+        };
+        let targetBgState = emotionStates.hero;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawGradient();
+        }
+
+        function drawGradient() {
+            if (!canvas || !ctx) return;
+            
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            if (width === 0 || height === 0) return;
+            
+            // 平滑过渡到目标颜色状态
+            currentBgState = interpolateColorState(currentBgState, targetBgState, 0.05);
+            
+            // 使用当前板块的颜色动线创建渐变
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            
+            // 颜色动线：从起点颜色到终点颜色
+            const startColor = currentBgState.colorGradient.start;
+            const midColor = currentBgState.colorGradient.mid;
+            const endColor = currentBgState.colorGradient.end;
+            
+            // 创建三色渐变（起点 → 中点 → 终点）
+            gradient.addColorStop(0, `rgb(${Math.floor(startColor.r)}, ${Math.floor(startColor.g)}, ${Math.floor(startColor.b)})`);
+            gradient.addColorStop(0.5, `rgb(${Math.floor(midColor.r)}, ${Math.floor(midColor.g)}, ${Math.floor(midColor.b)})`);
+            gradient.addColorStop(1, `rgb(${Math.floor(endColor.r)}, ${Math.floor(endColor.g)}, ${Math.floor(endColor.b)})`);
+
+            // 应用背景透明度
+            const bgOpacity = currentBgState.bgOpacity !== undefined ? currentBgState.bgOpacity : 0.95;
+            canvas.style.opacity = bgOpacity;
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // 只在最后一个情绪（insight）显示底部未来感竖排ribbed效果
+            if (targetBgState.name === 'insight' || currentBgState.name === 'insight') {
+                drawRibbedEffect(ctx, width, height, endColor);
+            }
+        }
+        
+        // 绘制底部ribbed效果
+        function drawRibbedEffect(ctx, width, height, baseColor) {
+            // Ribbed区域：底部25%高度
+            const ribbedHeight = height * 0.25;
+            const ribbedTop = height - ribbedHeight;
+            
+            // 条纹参数
+            const stripeWidth = 3; // 条纹宽度
+            const stripeSpacing = 10; // 条纹间距
+            const totalStripeWidth = stripeWidth + stripeSpacing;
+            const stripeCount = Math.ceil(width / totalStripeWidth);
+            
+            // 基于背景色，稍微提亮（增加5-10%）
+            const brightenFactor = 1.08;
+            const ribbedColor = {
+                r: Math.min(255, Math.floor(baseColor.r * brightenFactor)),
+                g: Math.min(255, Math.floor(baseColor.g * brightenFactor)),
+                b: Math.min(255, Math.floor(baseColor.b * brightenFactor))
+            };
+            
+            // 保存上下文状态
+            ctx.save();
+            
+            // 设置裁剪区域（只在底部ribbed区域绘制）
+            ctx.beginPath();
+            ctx.rect(0, ribbedTop, width, ribbedHeight);
+            ctx.clip();
+            
+            // 绘制每条竖条纹
+            for (let i = 0; i < stripeCount; i++) {
+                const x = i * totalStripeWidth;
+                
+                // 创建垂直方向的渐变（从顶部到底部逐渐显现 + 水平方向的发光效果）
+                // 使用径向渐变创建更自然的发光效果
+                const centerX = x + stripeWidth / 2;
+                
+                // 垂直渐变：从顶部透明到底部显现
+                const verticalGradient = ctx.createLinearGradient(centerX, ribbedTop, centerX, height);
+                const topOpacity = 0;
+                const midOpacity = 0.25; // 更低调的中间透明度
+                const bottomOpacity = 0.5; // 更低调的底部透明度
+                
+                verticalGradient.addColorStop(0, `rgba(${ribbedColor.r}, ${ribbedColor.g}, ${ribbedColor.b}, ${topOpacity})`);
+                verticalGradient.addColorStop(0.4, `rgba(${ribbedColor.r}, ${ribbedColor.g}, ${ribbedColor.b}, ${midOpacity * 0.6})`);
+                verticalGradient.addColorStop(0.7, `rgba(${ribbedColor.r}, ${ribbedColor.g}, ${ribbedColor.b}, ${midOpacity})`);
+                verticalGradient.addColorStop(1, `rgba(${ribbedColor.r}, ${ribbedColor.g}, ${ribbedColor.b}, ${bottomOpacity})`);
+                
+                // 绘制主条纹
+                ctx.fillStyle = verticalGradient;
+                ctx.fillRect(x, ribbedTop, stripeWidth, ribbedHeight);
+                
+                // 添加微妙的中心发光效果（水平方向）
+                const glowGradient = ctx.createLinearGradient(x, ribbedTop, x + stripeWidth, ribbedTop);
+                const glowIntensity = 0.08; // 非常微妙的发光
+                glowGradient.addColorStop(0, `rgba(${ribbedColor.r}, ${ribbedColor.g}, ${ribbedColor.b}, 0)`);
+                glowGradient.addColorStop(0.5, `rgba(${ribbedColor.r}, ${ribbedColor.g}, ${ribbedColor.b}, ${glowIntensity})`);
+                glowGradient.addColorStop(1, `rgba(${ribbedColor.r}, ${ribbedColor.g}, ${ribbedColor.b}, 0)`);
+                
+                ctx.fillStyle = glowGradient;
+                ctx.fillRect(x, ribbedTop, stripeWidth, ribbedHeight);
+            }
+            
+            // 恢复上下文状态
+            ctx.restore();
+        }
+        
+        // 背景动画循环
+        function animateBackground() {
+            drawGradient();
+            requestAnimationFrame(animateBackground);
+        }
+
+        // 颜色状态插值函数
+        function interpolateColorState(current, target, factor) {
+            const currentBgOpacity = current.bgOpacity !== undefined ? current.bgOpacity : 0.95;
+            const targetBgOpacity = target.bgOpacity !== undefined ? target.bgOpacity : 0.95;
+            return {
+                colorGradient: {
+                    start: {
+                        r: current.colorGradient.start.r + (target.colorGradient.start.r - current.colorGradient.start.r) * factor,
+                        g: current.colorGradient.start.g + (target.colorGradient.start.g - current.colorGradient.start.g) * factor,
+                        b: current.colorGradient.start.b + (target.colorGradient.start.b - current.colorGradient.start.b) * factor
+                    },
+                    mid: {
+                        r: current.colorGradient.mid.r + (target.colorGradient.mid.r - current.colorGradient.mid.r) * factor,
+                        g: current.colorGradient.mid.g + (target.colorGradient.mid.g - current.colorGradient.mid.g) * factor,
+                        b: current.colorGradient.mid.b + (target.colorGradient.mid.b - current.colorGradient.mid.b) * factor
+                    },
+                    end: {
+                        r: current.colorGradient.end.r + (target.colorGradient.end.r - current.colorGradient.end.r) * factor,
+                        g: current.colorGradient.end.g + (target.colorGradient.end.g - current.colorGradient.end.g) * factor,
+                        b: current.colorGradient.end.b + (target.colorGradient.end.b - current.colorGradient.end.b) * factor
+                    }
+                },
+                bgOpacity: currentBgOpacity + (targetBgOpacity - currentBgOpacity) * factor
+            };
+        }
+
+        // 等待DOM加载完成后再初始化
+        function init() {
+            if (!canvas || !ctx) {
+                console.error('Canvas not found');
+                return;
+            }
+            
+            resizeCanvas();
+            animateBackground();
+        }
+
+        // DOM加载完成后初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        // 窗口大小改变时重新绘制
+        window.addEventListener('resize', resizeCanvas);
+
+        // ========== 线性化3D生命体效果 ==========
+        
+        // 3D点类
+        class Point3D {
+            constructor(x, y, z) {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+                this.originalX = x; // 保存原始位置
+                this.originalY = y;
+                this.originalZ = z;
+                this.baseX = x;
+                this.baseY = y;
+                this.baseZ = z;
+                this.phase = Math.random() * Math.PI * 2;
+                this.randomPhase = Math.random() * Math.PI * 2;
+                this.radialPhase = Math.atan2(y, x);
+            }
+
+            // 3D旋转
+            rotate(angleX, angleY, angleZ) {
+                let x = this.baseX;
+                let y = this.baseY;
+                let z = this.baseZ;
+
+                // 绕X轴旋转
+                let y1 = y * Math.cos(angleX) - z * Math.sin(angleX);
+                let z1 = y * Math.sin(angleX) + z * Math.cos(angleX);
+                y = y1;
+                z = z1;
+
+                // 绕Y轴旋转
+                let x1 = x * Math.cos(angleY) + z * Math.sin(angleY);
+                z = -x * Math.sin(angleY) + z * Math.cos(angleY);
+                x = x1;
+
+                // 绕Z轴旋转
+                x1 = x * Math.cos(angleZ) - y * Math.sin(angleZ);
+                y = x * Math.sin(angleZ) + y * Math.cos(angleZ);
+                x = x1;
+
+                this.x = x;
+                this.y = y;
+                this.z = z;
+            }
+
+            // 透视投影到2D
+            project(centerX, centerY, cameraZ = 500) {
+                const scale = cameraZ / (cameraZ + this.z);
+                return {
+                    x: centerX + this.x * scale,
+                    y: centerY + this.y * scale,
+                    scale: scale,
+                    z: this.z
+                };
+            }
+        }
+
+        // 生命体类
+        class Lifeform {
+            constructor(canvasId, rotationOffset = 0) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.canvas.width = 1200;
+                this.canvas.height = 1200;
+                
+                this.centerX = this.canvas.width / 2;
+                this.centerY = this.canvas.height / 2;
+                this.rotationX = 0;
+                this.rotationY = 0;
+                this.rotationZ = rotationOffset;
+                this.rotationSpeedZ = 0.005;
+                this.rotationSpeedX = 0.002;
+                this.rotationSpeedY = 0.003;
+                this.targetRotationSpeedZ = 0.005;
+                this.intensity = 0.8;
+                this.targetIntensity = 0.8;
+                
+                // 当前情绪状态
+                this.currentState = emotionStates.hero;
+                this.targetState = emotionStates.hero;
+                
+                // 位置和形体
+                this.targetPosition = { x: 50, y: 50 };
+                this.currentPosition = { x: 50, y: 50 };
+                this.targetGridSize = 8;
+                this.currentGridSize = 8;
+                this.targetRadius = 100;
+                this.currentRadius = 100;
+                this.lastShape = 'sphere';
+                
+                // 透明度
+                this.currentOpacity = 0.85;
+                this.targetOpacity = 0.85;
+                
+                // 连接系统
+                this.connectionLifetimes = new Map();
+                this.connectionTimers = new Map();
+                
+                this.gridSize = 8;
+                this.points = [];
+                this.connections = [];
+                
+                this.initPoints();
+                this.initConnections();
+            }
+
+            initPoints() {
+                const shape = this.currentState.shape || 'sphere';
+                const radius = this.currentRadius;
+                
+                for (let i = 0; i <= this.gridSize; i++) {
+                    for (let j = 0; j <= this.gridSize; j++) {
+                        let x, y, z;
+                        
+                        switch (shape) {
+                            case 'sphere':
+                                const u = (i / this.gridSize) * Math.PI * 2;
+                                const v = (j / this.gridSize) * Math.PI;
+                                const r = radius + Math.sin(i * 0.5) * 20;
+                                x = Math.sin(v) * Math.cos(u) * r;
+                                y = Math.sin(v) * Math.sin(u) * r;
+                                z = Math.cos(v) * r;
+                                break;
+                                
+                            case 'torus':
+                                const u_t = (i / this.gridSize) * Math.PI * 2;
+                                const v_t = (j / this.gridSize) * Math.PI * 2;
+                                const majorRadius = radius;
+                                const minorRadius = radius * 0.4;
+                                x = (majorRadius + minorRadius * Math.cos(v_t)) * Math.cos(u_t);
+                                y = (majorRadius + minorRadius * Math.cos(v_t)) * Math.sin(u_t);
+                                z = minorRadius * Math.sin(v_t);
+                                break;
+                                
+                            case 'organic':
+                                const u_o = (i / this.gridSize) * Math.PI * 2;
+                                const v_o = (j / this.gridSize) * Math.PI;
+                                const r_o = radius * (0.8 + Math.sin(u_o * 2) * 0.2 + Math.cos(v_o * 3) * 0.2);
+                                x = Math.sin(v_o) * Math.cos(u_o) * r_o;
+                                y = Math.sin(v_o) * Math.sin(u_o) * r_o;
+                                z = Math.cos(v_o) * r_o;
+                                break;
+                                
+                            case 'cluster':
+                                const u_c = (i / this.gridSize) * Math.PI * 2;
+                                const v_c = (j / this.gridSize) * Math.PI;
+                                const seed = (i * 17 + j * 23) % 100 / 100;
+                                const clusterRadius = radius * (0.6 + seed * 0.4);
+                                x = Math.sin(v_c) * Math.cos(u_c) * clusterRadius;
+                                y = Math.sin(v_c) * Math.sin(u_c) * clusterRadius;
+                                z = Math.cos(v_c) * clusterRadius;
+                                break;
+                                
+                            case 'cube':
+                                const u_cube = (i / this.gridSize) * 2 - 1;
+                                const v_cube = (j / this.gridSize) * 2 - 1;
+                                const w_cube = Math.sin(i + j) * 0.5;
+                                x = u_cube * radius;
+                                y = v_cube * radius;
+                                z = w_cube * radius;
+                                break;
+                                
+                            default:
+                                const u_d = (i / this.gridSize) * Math.PI * 2;
+                                const v_d = (j / this.gridSize) * Math.PI;
+                                const r_d = radius;
+                                x = Math.sin(v_d) * Math.cos(u_d) * r_d;
+                                y = Math.sin(v_d) * Math.sin(u_d) * r_d;
+                                z = Math.cos(v_d) * r_d;
+                        }
+                        
+                        this.points.push(new Point3D(x, y, z));
+                    }
+                }
+            }
+            
+            updateCanvasPosition() {
+                // 根据当前位置更新canvas的CSS transform
+                const x = this.currentPosition.x;
+                const y = this.currentPosition.y;
+                this.canvas.style.left = `${x}%`;
+                this.canvas.style.top = `${y}%`;
+                this.canvas.style.transform = `translate(-50%, -50%)`;
+            }
+
+            initConnections() {
+                // 创建连接关系（线性网络）
+                for (let i = 0; i <= this.gridSize; i++) {
+                    for (let j = 0; j <= this.gridSize; j++) {
+                        const idx = i * (this.gridSize + 1) + j;
+                        
+                        // 水平连接
+                        if (j < this.gridSize) {
+                            this.connections.push([idx, idx + 1]);
+                        }
+                        // 垂直连接
+                        if (i < this.gridSize) {
+                            this.connections.push([idx, idx + (this.gridSize + 1)]);
+                        }
+                    }
+                }
+            }
+
+            animate() {
+                // 平滑过渡到目标状态
+                this.currentState = this.interpolateState(this.currentState, this.targetState, 0.05);
+                this.rotationSpeedZ += (this.targetState.rotationSpeed - this.rotationSpeedZ) * 0.05;
+                this.intensity += (this.targetState.intensity - this.intensity) * 0.05;
+                
+                // 平滑过渡位置和形体
+                this.currentPosition.x += (this.targetPosition.x - this.currentPosition.x) * 0.05;
+                this.currentPosition.y += (this.targetPosition.y - this.currentPosition.y) * 0.05;
+                this.currentGridSize += (this.targetGridSize - this.currentGridSize) * 0.05;
+                this.currentRadius += (this.targetRadius - this.currentRadius) * 0.05;
+                this.currentOpacity += (this.targetOpacity - this.currentOpacity) * 0.05;
+                
+                // 应用透明度到canvas
+                this.canvas.style.opacity = this.currentOpacity;
+                
+                // 更新canvas位置
+                this.updateCanvasPosition();
+                
+                // 如果网格大小或形状变化，重新生成点
+                const newGridSize = Math.round(this.currentGridSize);
+                const currentShape = this.currentState.shape || 'sphere';
+                const lastShape = this.lastShape || 'sphere';
+                
+                if (newGridSize !== this.gridSize || currentShape !== lastShape) {
+                    this.gridSize = newGridSize;
+                    this.lastShape = currentShape;
+                    this.points = [];
+                    this.connections = [];
+                    this.initPoints();
+                    this.initConnections();
+                }
+                
+                // 自动旋转
+                this.rotationZ += this.rotationSpeedZ * this.currentState.motionSpeed;
+                this.rotationX += this.rotationSpeedX * this.currentState.motionSpeed;
+                this.rotationY += this.rotationSpeedY * this.currentState.motionSpeed;
+
+                // 清空画布 - 完全透明，让生命体直接与情绪背景融合
+                const fadeSpeed = this.currentState.motionSpeed > 1 ? 0.15 : 0.08;
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // 使用destination-out创建拖尾淡出效果（不会遮挡背景）
+                this.ctx.globalCompositeOperation = 'destination-out';
+                this.ctx.fillStyle = `rgba(0, 0, 0, ${fadeSpeed})`;
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.globalCompositeOperation = 'source-over';
+
+                const time = Date.now() * 0.001;
+                
+                // 更新并投影所有点（根据状态改变运动模式）
+                const projectedPoints = [];
+                this.points.forEach((point, index) => {
+                    this.updatePointMotion(point, time, index);
+                    point.rotate(this.rotationX, this.rotationY, this.rotationZ);
+                    const proj = point.project(this.centerX, this.centerY);
+                    projectedPoints.push(proj);
+                });
+
+                // 动态管理连接（根据状态）
+                this.updateConnections(time);
+
+                // 按Z深度排序（用于正确的渲染顺序）
+                const activeConnections = this.getActiveConnections();
+                const sortedConnections = activeConnections.map((conn) => {
+                    const p1 = projectedPoints[conn[0]];
+                    const p2 = projectedPoints[conn[1]];
+                    const avgZ = (p1.z + p2.z) / 2;
+                    return { conn, avgZ };
+                }).sort((a, b) => b.avgZ - a.avgZ);
+
+                // 使用当前强度
+                const intensity = this.intensity;
+
+                // 绘制连接线（根据状态改变样式）
+                sortedConnections.forEach(({ conn }) => {
+                    // Contact状态：只绘制30%的连接线（减少70%）
+                    if (this.currentState.name === 'contact') {
+                        // 使用稳定的过滤方式，确保只绘制约30%的连接
+                        const connectionHash = (conn[0] + conn[1]) % 10;
+                        if (connectionHash >= 3) {
+                            return; // 跳过70%的连接
+                        }
+                    }
+                    
+                    const p1 = projectedPoints[conn[0]];
+                    const p2 = projectedPoints[conn[1]];
+
+                    const depth1 = (p1.z + 200) / 400;
+                    const depth2 = (p2.z + 200) / 400;
+                    const avgDepth = (depth1 + depth2) / 2;
+                    let opacity = Math.max(0.3, Math.min(0.9, avgDepth)) * intensity * 0.8;
+
+                    this.ctx.beginPath();
+                    
+                    // 检测是否为About状态（Backpacker），使用参数化曲线和消散效果
+                    if (this.currentState.name === 'about') {
+                        // About状态：使用参数化曲线（有理化参数形态）
+                        const midX = (p1.x + p2.x) / 2;
+                        const midY = (p1.y + p2.y) / 2;
+                        this.drawParametricCurve(this.ctx, p1.x, p1.y, p2.x, p2.y, time, this.centerX, this.centerY);
+                        
+                        // 消散链接效果：根据距离中心的距离计算透明度，从中心到边缘逐渐淡出
+                        const distToCenter = Math.sqrt((midX - this.centerX) ** 2 + (midY - this.centerY) ** 2);
+                        const maxDist = Math.sqrt(this.canvas.width ** 2 + this.canvas.height ** 2) / 2;
+                        const fadeFactor = Math.max(0, 1 - (distToCenter / maxDist) * 1.5); // 边缘完全消散
+                        opacity = opacity * fadeFactor * 0.8; // 整体降低透明度，增强消散效果
+                    }
+                    // 检测是否为Contact状态，使用波浪线
+                    else if (this.currentState.name === 'contact') {
+                        // Contact状态：使用波浪线（温柔如水）
+                        const amplitude = 7; // 中等波浪幅度
+                        const frequency = 2.5; // 波浪频率
+                        this.drawWavyLine(this.ctx, p1.x, p1.y, p2.x, p2.y, time, amplitude, frequency);
+                    } else {
+                        // 其他状态：使用直线
+                        this.ctx.moveTo(p1.x, p1.y);
+                        this.ctx.lineTo(p2.x, p2.y);
+                    }
+                    
+                    // 根据状态改变颜色和线宽
+                    const color = this.getStateColor(avgDepth);
+                    this.ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+                    this.ctx.lineWidth = this.currentState.connectionThickness * (1 + avgDepth * 0.5);
+                    this.ctx.stroke();
+                });
+
+                // 绘制节点
+                projectedPoints.forEach((proj, index) => {
+                    const depth = (proj.z + 200) / 400;
+                    const opacity = Math.max(0.4, Math.min(0.9, depth)) * intensity * 0.85;
+                    const size = 2 + depth * 3;
+                    const color = this.getStateColor(depth, true);
+
+                    // Backpacker（about）状态：添加闪光效果
+                    if (this.currentState.name === 'about') {
+                        // 为每个点创建独立的闪光相位
+                        const flashPhase = (index * 0.1) + (time * 2);
+                        // 闪光强度：0.5-1.0之间波动
+                        const flashIntensity = 0.5 + (Math.sin(flashPhase) * 0.5);
+                        // 闪光大小：基础大小 + 闪光扩展
+                        const flashSize = size * (1 + flashIntensity * 0.3);
+                        
+                        // 绘制外层闪光光晕
+                        const glowGradient = this.ctx.createRadialGradient(
+                            proj.x, proj.y, 0,
+                            proj.x, proj.y, flashSize * 2
+                        );
+                        glowGradient.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity * flashIntensity * 0.6})`);
+                        glowGradient.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity * flashIntensity * 0.3})`);
+                        glowGradient.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+                        
+                        this.ctx.beginPath();
+                        this.ctx.arc(proj.x, proj.y, flashSize * 2, 0, Math.PI * 2);
+                        this.ctx.fillStyle = glowGradient;
+                        this.ctx.fill();
+                        
+                        // 绘制核心节点（更亮）
+                        this.ctx.beginPath();
+                        this.ctx.arc(proj.x, proj.y, size, 0, Math.PI * 2);
+                        this.ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity * flashIntensity})`;
+                        this.ctx.fill();
+                        
+                        
+                    } else {
+                        // 其他状态：正常绘制
+                        this.ctx.beginPath();
+                        this.ctx.arc(proj.x, proj.y, size, 0, Math.PI * 2);
+                        this.ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+                        this.ctx.fill();
+                    }
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+
+            // 状态插值
+            interpolateState(current, target, factor) {
+                const interpolated = {
+                    name: target.name,
+                    rotationSpeed: current.rotationSpeed + (target.rotationSpeed - current.rotationSpeed) * factor,
+                    intensity: current.intensity + (target.intensity - current.intensity) * factor,
+                    motionSpeed: current.motionSpeed + (target.motionSpeed - current.motionSpeed) * factor,
+                    motionType: target.motionType,
+                    connectionLifetime: current.connectionLifetime + (target.connectionLifetime - current.connectionLifetime) * factor,
+                    connectionThickness: current.connectionThickness + (target.connectionThickness - current.connectionThickness) * factor,
+                    shape: target.shape || current.shape,
+                    gridSize: (current.gridSize || 8) + ((target.gridSize || 8) - (current.gridSize || 8)) * factor,
+                    radius: (current.radius || 100) + ((target.radius || 100) - (current.radius || 100)) * factor,
+                    position: {
+                        x: (current.position?.x || 50) + ((target.position?.x || 50) - (current.position?.x || 50)) * factor,
+                        y: (current.position?.y || 50) + ((target.position?.y || 50) - (current.position?.y || 50)) * factor
+                    },
+                    opacity: (current.opacity || 0.85) + ((target.opacity || 0.85) - (current.opacity || 0.85)) * factor,
+                    colorBase: {
+                        r: current.colorBase.r + (target.colorBase.r - current.colorBase.r) * factor,
+                        g: current.colorBase.g + (target.colorBase.g - current.colorBase.g) * factor,
+                        b: current.colorBase.b + (target.colorBase.b - current.colorBase.b) * factor
+                    },
+                    colorAccent: {
+                        r: current.colorAccent.r + (target.colorAccent.r - current.colorAccent.r) * factor,
+                        g: current.colorAccent.g + (target.colorAccent.g - current.colorAccent.g) * factor,
+                        b: current.colorAccent.b + (target.colorAccent.b - current.colorAccent.b) * factor
+                    }
+                };
+                
+                // 插值颜色动线
+                if (current.colorGradient && target.colorGradient) {
+                    interpolated.colorGradient = {
+                        start: {
+                            r: current.colorGradient.start.r + (target.colorGradient.start.r - current.colorGradient.start.r) * factor,
+                            g: current.colorGradient.start.g + (target.colorGradient.start.g - current.colorGradient.start.g) * factor,
+                            b: current.colorGradient.start.b + (target.colorGradient.start.b - current.colorGradient.start.b) * factor
+                        },
+                        mid: {
+                            r: current.colorGradient.mid.r + (target.colorGradient.mid.r - current.colorGradient.mid.r) * factor,
+                            g: current.colorGradient.mid.g + (target.colorGradient.mid.g - current.colorGradient.mid.g) * factor,
+                            b: current.colorGradient.mid.b + (target.colorGradient.mid.b - current.colorGradient.mid.b) * factor
+                        },
+                        end: {
+                            r: current.colorGradient.end.r + (target.colorGradient.end.r - current.colorGradient.end.r) * factor,
+                            g: current.colorGradient.end.g + (target.colorGradient.end.g - current.colorGradient.end.g) * factor,
+                            b: current.colorGradient.end.b + (target.colorGradient.end.b - current.colorGradient.end.b) * factor
+                        }
+                    };
+                } else if (target.colorGradient) {
+                    interpolated.colorGradient = target.colorGradient;
+                }
+                
+                // 插值生命体对比色
+                if (current.lifeformColorGradient && target.lifeformColorGradient) {
+                    interpolated.lifeformColorGradient = {
+                        start: {
+                            r: current.lifeformColorGradient.start.r + (target.lifeformColorGradient.start.r - current.lifeformColorGradient.start.r) * factor,
+                            g: current.lifeformColorGradient.start.g + (target.lifeformColorGradient.start.g - current.lifeformColorGradient.start.g) * factor,
+                            b: current.lifeformColorGradient.start.b + (target.lifeformColorGradient.start.b - current.lifeformColorGradient.start.b) * factor
+                        },
+                        mid: {
+                            r: current.lifeformColorGradient.mid.r + (target.lifeformColorGradient.mid.r - current.lifeformColorGradient.mid.r) * factor,
+                            g: current.lifeformColorGradient.mid.g + (target.lifeformColorGradient.mid.g - current.lifeformColorGradient.mid.g) * factor,
+                            b: current.lifeformColorGradient.mid.b + (target.lifeformColorGradient.mid.b - current.lifeformColorGradient.mid.b) * factor
+                        },
+                        end: {
+                            r: current.lifeformColorGradient.end.r + (target.lifeformColorGradient.end.r - current.lifeformColorGradient.end.r) * factor,
+                            g: current.lifeformColorGradient.end.g + (target.lifeformColorGradient.end.g - current.lifeformColorGradient.end.g) * factor,
+                            b: current.lifeformColorGradient.end.b + (target.lifeformColorGradient.end.b - current.lifeformColorGradient.end.b) * factor
+                        }
+                    };
+                } else if (target.lifeformColorGradient) {
+                    interpolated.lifeformColorGradient = target.lifeformColorGradient;
+                }
+                
+                return interpolated;
+            }
+
+            // 根据状态更新点的运动
+            updatePointMotion(point, time, index) {
+                const state = this.currentState;
+                const speed = state.motionSpeed * 0.01;
+
+                // 重置到原始位置
+                point.baseX = point.originalX;
+                point.baseY = point.originalY;
+                point.baseZ = point.originalZ;
+
+                let offsetX = 0, offsetY = 0, offsetZ = 0;
+
+                switch (state.motionType) {
+                    case 'radial': // 径向流动（英雄状态）
+                        point.phase += speed * 0.5;
+                        const radialWave = Math.sin(point.radialPhase + time * 0.5) * 3;
+                        offsetX = point.originalX * radialWave * 0.01;
+                        offsetY = point.originalY * radialWave * 0.01;
+                        break;
+
+                    case 'random': // 快速随机（做市状态）
+                        point.randomPhase += speed * 2;
+                        point.phase += speed * 1.5;
+                        offsetX = Math.sin(point.randomPhase) * 8;
+                        offsetY = Math.cos(point.randomPhase * 1.3) * 8;
+                        break;
+
+                    case 'organic': // 有机弯曲（见解状态）
+                        point.phase += speed * 0.3;
+                        const organicWave = Math.sin(point.phase + time * 0.3) * 5;
+                        offsetX = Math.cos(point.phase) * organicWave;
+                        offsetY = Math.sin(point.phase) * organicWave;
+                        break;
+
+                    case 'grid': // 网格结构（关于我们状态）
+                        point.phase += speed * 0.2;
+                        const gridWave = Math.sin(point.phase) * 2;
+                        offsetX = gridWave;
+                        offsetY = gridWave;
+                        break;
+
+                    case 'convergent': // 汇聚（职业状态）
+                        point.phase += speed * 0.8;
+                        const convergentForce = Math.sin(point.phase + time) * 4;
+                        const toCenterX = -point.originalX * 0.1;
+                        const toCenterY = -point.originalY * 0.1;
+                        offsetX = toCenterX + Math.cos(point.phase) * convergentForce;
+                        offsetY = toCenterY + Math.sin(point.phase) * convergentForce;
+                        break;
+
+                    default:
+                        point.phase += speed;
+                        const wave = Math.sin(point.phase + time) * 5;
+                        offsetX = wave;
+                        offsetY = wave;
+                }
+
+                // 应用偏移量
+                point.baseX += offsetX;
+                point.baseY += offsetY;
+                point.baseZ += offsetZ;
+            }
+
+            // 更新连接系统（动态建立/消失）
+            updateConnections(time) {
+                this.connections.forEach((conn) => {
+                    const key = `${conn[0]}-${conn[1]}`;
+                    
+                    if (!this.connectionTimers.has(key)) {
+                        this.connectionTimers.set(key, time);
+                        this.connectionLifetimes.set(key, this.currentState.connectionLifetime);
+                    }
+
+                    const lifetime = this.connectionLifetimes.get(key);
+                    const elapsed = time - this.connectionTimers.get(key);
+
+                    // 如果连接超过生命周期，重置
+                    if (elapsed > lifetime) {
+                        this.connectionTimers.set(key, time);
+                        this.connectionLifetimes.set(key, this.currentState.connectionLifetime * (0.8 + Math.random() * 0.4));
+                    }
+                });
+            }
+
+            // 获取活跃连接
+            getActiveConnections() {
+                const time = Date.now() * 0.001;
+                return this.connections.filter((conn) => {
+                    const key = `${conn[0]}-${conn[1]}`;
+                    if (!this.connectionTimers.has(key)) return true;
+                    
+                    const lifetime = this.connectionLifetimes.get(key);
+                    const elapsed = time - this.connectionTimers.get(key);
+                    const phase = (elapsed % lifetime) / lifetime;
+                    
+                    // 根据状态决定连接可见性
+                    if (this.currentState.connectionLifetime < 1) {
+                        // 快速闪烁（做市状态）
+                        return phase < 0.7;
+                    } else {
+                        // 持续可见
+                        return true;
+                    }
+                });
+            }
+
+            // 获取状态颜色
+            getStateColor(depth, isNode = false) {
+                // 优先使用生命体对比色，如果没有则使用背景色
+                const gradient = this.currentState.lifeformColorGradient || this.currentState.colorGradient;
+                
+                if (!gradient) {
+                    const base = this.currentState.colorBase;
+                    const accent = this.currentState.colorAccent;
+                    const mix = depth * 0.5;
+                    return {
+                        r: Math.floor(base.r + (accent.r - base.r) * mix),
+                        g: Math.floor(base.g + (accent.g - base.g) * mix),
+                        b: Math.floor(base.b + (accent.b - base.b) * mix)
+                    };
+                }
+                
+                let color;
+                if (depth < 0.5) {
+                    const t = depth * 2;
+                    color = {
+                        r: gradient.start.r + (gradient.mid.r - gradient.start.r) * t,
+                        g: gradient.start.g + (gradient.mid.g - gradient.start.g) * t,
+                        b: gradient.start.b + (gradient.mid.b - gradient.start.b) * t
+                    };
+                } else {
+                    const t = (depth - 0.5) * 2;
+                    color = {
+                        r: gradient.mid.r + (gradient.end.r - gradient.mid.r) * t,
+                        g: gradient.mid.g + (gradient.end.g - gradient.mid.g) * t,
+                        b: gradient.mid.b + (gradient.end.b - gradient.mid.b) * t
+                    };
+                }
+                
+                if (isNode && depth > 0.6) {
+                    const nodeBrightness = (depth - 0.6) / 0.4;
+                    color = {
+                        r: color.r + (gradient.end.r - color.r) * nodeBrightness * 0.5,
+                        g: color.g + (gradient.end.g - color.g) * nodeBrightness * 0.5,
+                        b: color.b + (gradient.end.b - color.b) * nodeBrightness * 0.5
+                    };
+                }
+                
+                return {
+                    r: Math.floor(color.r),
+                    g: Math.floor(color.g),
+                    b: Math.floor(color.b)
+                };
+            }
+
+            // 绘制波浪线（用于Contact状态）
+            drawWavyLine(ctx, x1, y1, x2, y2, time, amplitude = 8, frequency = 2.5) {
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // 如果距离太短，直接绘制直线
+                if (distance < 10) {
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    return;
+                }
+                
+                // 计算垂直于连接线的方向（用于波浪偏移）
+                const perpX = -dy / distance;
+                const perpY = dx / distance;
+                
+                // 根据距离自适应调整波浪参数
+                const waveCount = Math.max(2, Math.min(4, Math.floor(distance / 50)));
+                const segments = Math.max(20, Math.floor(distance / 3));
+                
+                ctx.moveTo(x1, y1);
+                
+                // 使用正弦波生成波浪路径
+                for (let i = 1; i <= segments; i++) {
+                    const t = i / segments;
+                    const x = x1 + dx * t;
+                    const y = y1 + dy * t;
+                    
+                    // 计算波浪偏移（动态流动效果）
+                    const wavePhase = (t * waveCount * Math.PI * 2) + (time * 2);
+                    const waveOffset = Math.sin(wavePhase) * amplitude;
+                    
+                    // 应用垂直于连接线的偏移
+                    const waveX = x + perpX * waveOffset;
+                    const waveY = y + perpY * waveOffset;
+                    
+                    ctx.lineTo(waveX, waveY);
+                }
+            }
+
+            // 绘制参数化曲线（用于Backpacker状态 - 有理化参数形态）
+            drawParametricCurve(ctx, x1, y1, x2, y2, time, centerX, centerY) {
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // 如果距离太短，直接绘制直线
+                if (distance < 10) {
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    return;
+                }
+                
+                // 计算中点
+                const midX = (x1 + x2) / 2;
+                const midY = (y1 + y2) / 2;
+                
+                // 计算到中心的距离，用于控制曲线弯曲程度
+                const distToCenter = Math.sqrt((midX - centerX) ** 2 + (midY - centerY) ** 2);
+                const curveIntensity = Math.min(1, distToCenter / 200); // 距离中心越远，曲线越明显
+                
+                // 计算垂直于连接线的方向
+                const perpX = -dy / distance;
+                const perpY = dx / distance;
+                
+                // 使用时间变量创建动态曲线效果
+                const timeOffset = Math.sin(time * 0.5 + distToCenter * 0.01) * 0.3;
+                const controlOffset = (15 + timeOffset * 5) * curveIntensity;
+                
+                // 控制点位置（使用二次贝塞尔曲线）
+                const controlX = midX + perpX * controlOffset;
+                const controlY = midY + perpY * controlOffset;
+                
+                // 使用二次贝塞尔曲线绘制
+                ctx.moveTo(x1, y1);
+                ctx.quadraticCurveTo(controlX, controlY, x2, y2);
+            }
+        }
+
+        // 页面加载完成后初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+            initLifeProgressBars();
+            initNavItems();
+            initCodeVerification();
+            initEmailModal();
+            });
+        } else {
+        initLifeProgressBars();
+        initNavItems();
+        initCodeVerification();
+        initEmailModal();
+        }
+
+        // 滚动响应管理器
+        class ScrollReactor {
+            constructor() {
+                this.currentSection = 'top';
+                this.isReacting = false;
+                this.setupScrollListener();
+                // 初始化第一个section为可见
+                setTimeout(() => {
+                    const firstSection = document.querySelector('.emotion-section[data-emotion="hero"]');
+                    if (firstSection) {
+                        const content = firstSection.querySelector('.emotion-section-content');
+                        if (content) {
+                            content.classList.add('fade-in');
+                        }
+                    }
+                }, 100);
+            }
+
+            setupScrollListener() {
+                let ticking = false;
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            this.handleScroll();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }
+
+            handleScroll() {
+                const scrollY = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const viewportCenter = scrollY + windowHeight / 2;
+                
+                const sections = document.querySelectorAll('.emotion-section[data-emotion]');
+                let activeEmotion = 'hero';
+                let activeSection = null;
+                
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const sectionTop = scrollY + rect.top;
+                    const sectionBottom = sectionTop + rect.height;
+                    
+                    if (viewportCenter >= sectionTop && viewportCenter <= sectionBottom) {
+                        activeEmotion = section.getAttribute('data-emotion');
+                        activeSection = section;
+                    }
+                });
+
+                const firstSection = sections[0];
+                if (firstSection) {
+                    const firstSectionTop = firstSection.getBoundingClientRect().top + scrollY;
+                    if (viewportCenter < firstSectionTop) {
+                        activeEmotion = 'hero';
+                        activeSection = firstSection;
+                    }
+                }
+
+                // 根据滚动位置动态调整生命体位置
+                if (activeSection && lifeform2) {
+                    const rect = activeSection.getBoundingClientRect();
+                    const sectionTop = scrollY + rect.top;
+                    const sectionHeight = rect.height;
+                    const relativePosition = (viewportCenter - sectionTop) / sectionHeight;
+                    
+                    // 在板块内的相对位置（0-1），影响生命体的垂直位置
+                    const basePosition = emotionStates[activeEmotion]?.position || { x: 50, y: 50 };
+                    const dynamicY = basePosition.y + (relativePosition - 0.5) * 20; // 在基础位置上±10%
+                    
+                    lifeform2.targetPosition = {
+                        x: basePosition.x,
+                        y: Math.max(20, Math.min(80, dynamicY)) // 限制在20%-80%之间
+                    };
+                }
+
+                if (activeEmotion !== this.currentSection && !this.isReacting) {
+                    this.onScrollEnter(activeEmotion);
+                }
+            }
+
+            // 对滚动做出像生物般的反应
+            onScrollEnter(emotionState) {
+                this.isReacting = true;
+                const previousEmotion = this.currentSection;
+                this.currentSection = emotionState;
+
+                // 获取所有sections
+                const allSections = document.querySelectorAll('.emotion-section[data-emotion]');
+                
+                allSections.forEach(section => {
+                    const content = section.querySelector('.emotion-section-content');
+                    if (content) {
+                        const sectionEmotion = section.getAttribute('data-emotion');
+                        
+                        if (sectionEmotion === emotionState) {
+                            // 当前section：先重置，然后淡入
+                            content.classList.remove('fade-out', 'fade-in');
+                            // 强制重排以触发动画
+                            void content.offsetWidth;
+                            content.classList.add('fade-in');
+                        } else {
+                            // 其他section：淡出
+                            content.classList.remove('fade-in');
+                            content.classList.add('fade-out');
+                        }
+                    }
+                });
+
+                setTimeout(() => {
+                    if (lifeform2 && emotionStates[emotionState]) {
+                        lifeform2.evolveTo(emotionStates[emotionState]);
+                    }
+                    if (emotionStates[emotionState]) {
+                        targetBgState = emotionStates[emotionState];
+                    }
+                    this.isReacting = false;
+                }, 300);
+            }
+        }
+
+        // 创建生命体
+        const lifeform2 = new Lifeform('lifeformCanvas2', Math.PI);
+        lifeform2.currentState = emotionStates.hero;
+        lifeform2.targetState = emotionStates.hero;
+        
+        // 初始化位置和形体
+        if (emotionStates.hero.position) {
+            lifeform2.targetPosition = emotionStates.hero.position;
+            lifeform2.currentPosition = { ...emotionStates.hero.position };
+        }
+        if (emotionStates.hero.gridSize) {
+            lifeform2.targetGridSize = emotionStates.hero.gridSize;
+            lifeform2.currentGridSize = emotionStates.hero.gridSize;
+        }
+        if (emotionStates.hero.radius) {
+            lifeform2.targetRadius = emotionStates.hero.radius;
+            lifeform2.currentRadius = emotionStates.hero.radius;
+        }
+        if (emotionStates.hero.opacity !== undefined) {
+            lifeform2.targetOpacity = emotionStates.hero.opacity;
+            lifeform2.currentOpacity = emotionStates.hero.opacity;
+        }
+        lifeform2.updateCanvasPosition();
+
+        Lifeform.prototype.evolveTo = function(emotionState) {
+            this.targetState = emotionState;
+            this.targetRotationSpeedZ = emotionState.rotationSpeed;
+            this.targetIntensity = emotionState.intensity;
+            
+            // 更新位置和形体
+            if (emotionState.position) {
+                this.targetPosition = emotionState.position;
+            }
+            if (emotionState.gridSize) {
+                this.targetGridSize = emotionState.gridSize;
+            }
+            if (emotionState.radius) {
+                this.targetRadius = emotionState.radius;
+            }
+            if (emotionState.opacity !== undefined) {
+                this.targetOpacity = emotionState.opacity;
+            }
+        };
+
+        // 启动动画
+        lifeform2.animate();
+
+        // 启动滚动响应
+        const scrollReactor = new ScrollReactor();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-haram="true"]').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    alert('Haram!');
+                });
+            });
+        });
+    </script>
+    <script src="js/navigation.js"></script>
+    <script src="js/gallery.js"></script>
+    <script>
+        if (typeof LanguageManager !== 'undefined') {
+            LanguageManager.init();
+        }
+    </script>
+</body>
+</html>

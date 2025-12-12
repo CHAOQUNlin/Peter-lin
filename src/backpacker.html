@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>PETER LIN - Travel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/detail-contact.css">
+    <link rel="stylesheet" href="css/social-share-detail.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/languages.js"></script>
+</head>
+<body class="backpacker-page">
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-brand dropdown" id="navBrand">
+            <a href="index.html" class="nav-link" id="brandLink">PETER</a>
+            <div class="dropdown-menu" id="languageMenu">
+                <a href="#" class="dropdown-item" data-lang="en" data-name="PETER">PETER</a>
+                <a href="#" class="dropdown-item" data-lang="es" data-name="PEDRO">PEDRO</a>
+                <a href="#" class="dropdown-item" data-lang="ar" data-name="بطرس">بطرس</a>
+                <a href="#" class="dropdown-item" data-lang="zh" data-name="皮特">皮特</a>
+            </div>
+        </div>
+        <div class="nav-links">
+            <div class="nav-item">
+                <a href="design.html" class="nav-link" data-i18n="nav.designer">DESIGN</a>
+            </div>
+            <div class="nav-item">
+                <a href="backpacker.html" class="nav-link" data-i18n="nav.backpacker">TRAVEL</a>
+            </div>
+            <div class="nav-item">
+                <a href="art.html" class="nav-link" data-i18n="nav.art">ART</a>
+            </div>
+            <div class="nav-item">
+                <a href="movie.html" class="nav-link" data-i18n="nav.movie">MOVIE</a>
+            </div>
+            <div class="nav-item">
+                <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Backpacker Content -->
+    <main class="home-main">
+        <section class="featured-projects" id="travel-section">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="backpacker.title">Wanderlust</h2>
+                <div class="section-description" style="max-width: 800px; margin: 0.5rem auto 0; text-align: center; line-height: 1.8; color: var(--accent-color); font-size: 1.2rem;">
+                    <p data-i18n="backpacker.description"></p>
+                </div>
+            </div>
+            
+            <div class="featured-container" id="photoStories">
+                <!-- Stories will be dynamically loaded as cards -->
+            </div>
+        </section>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script src="js/backpacker.js"></script>
+    <script src="js/inject-social-share.js"></script>
+    <script src="js/inject-up-next.js"></script>
+    <script src="js/inject-contact.js"></script>
+    <script>
+        // Ensure LanguageManager is initialized after all scripts are loaded
+        if (typeof LanguageManager !== 'undefined') {
+            LanguageManager.init();
+        }
+    </script>
+</body>
+</html>
+

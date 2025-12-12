@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>PETER LIN - Movie</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/languages.js"></script>
+</head>
+<body class="movie-page">
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-brand dropdown" id="navBrand">
+            <a href="index.html" class="nav-link" id="brandLink">PETER</a>
+            <div class="dropdown-menu" id="languageMenu">
+                <a href="#" class="dropdown-item" data-lang="en" data-name="PETER">PETER</a>
+                <a href="#" class="dropdown-item" data-lang="es" data-name="PEDRO">PEDRO</a>
+                <a href="#" class="dropdown-item" data-lang="ar" data-name="بطرس">بطرس</a>
+                <a href="#" class="dropdown-item" data-lang="zh" data-name="皮特">皮特</a>
+            </div>
+        </div>
+        <div class="nav-links">
+            <div class="nav-item">
+                <a href="design.html" class="nav-link" data-i18n="nav.designer">DESIGN</a>
+            </div>
+            <div class="nav-item">
+                <a href="backpacker.html" class="nav-link" data-i18n="nav.backpacker">TRAVEL</a>
+            </div>
+            <div class="nav-item">
+                <a href="art.html" class="nav-link" data-i18n="nav.art">ART</a>
+            </div>
+            <div class="nav-item">
+                <a href="movie.html" class="nav-link" data-i18n="nav.movie">MOVIE</a>
+            </div>
+            <div class="nav-item">
+                <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Movie Content -->
+    <main class="home-main">
+        <section class="featured-projects" id="movie-section">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="movie.title">Movie</h2>
+                <div class="section-description" style="max-width: 800px; margin: 2rem auto; text-align: center; line-height: 1.8; color: var(--accent-color);">
+                    <p data-i18n="movie.description"></p>
+                </div>
+            </div>
+            
+            <div class="featured-container" id="movieContainer">
+                <!-- Movies will be dynamically loaded as cards -->
+                <div style="text-align: center; padding: 4rem; color: #666;">
+                    <p style="font-size: 1.2rem;" data-i18n="movie.comingSoon">Coming soon...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script src="js/movie.js"></script>
+    <script>
+        if (typeof LanguageManager !== 'undefined') {
+            LanguageManager.init();
+        }
+    </script>
+</body>
+</html>
+

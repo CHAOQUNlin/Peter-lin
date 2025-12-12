@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>PETER LIN - Art</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/languages.js"></script>
+</head>
+<body class="art-page">
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-brand dropdown" id="navBrand">
+            <a href="index.html" class="nav-link" id="brandLink">PETER</a>
+            <div class="dropdown-menu" id="languageMenu">
+                <a href="#" class="dropdown-item" data-lang="en" data-name="PETER">PETER</a>
+                <a href="#" class="dropdown-item" data-lang="es" data-name="PEDRO">PEDRO</a>
+                <a href="#" class="dropdown-item" data-lang="ar" data-name="بطرس">بطرس</a>
+                <a href="#" class="dropdown-item" data-lang="zh" data-name="皮特">皮特</a>
+            </div>
+        </div>
+        <div class="nav-links">
+            <div class="nav-item">
+                <a href="design.html" class="nav-link" data-i18n="nav.designer">DESIGN</a>
+            </div>
+            <div class="nav-item">
+                <a href="backpacker.html" class="nav-link" data-i18n="nav.backpacker">TRAVEL</a>
+            </div>
+            <div class="nav-item">
+                <a href="art.html" class="nav-link" data-i18n="nav.art">ART</a>
+            </div>
+            <div class="nav-item">
+                <a href="movie.html" class="nav-link" data-i18n="nav.movie">MOVIE</a>
+            </div>
+            <div class="nav-item">
+                <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Art Content -->
+    <main class="home-main">
+        <!-- Hero Section - 英雄区域 -->
+        <section class="hero-section" id="heroSection">
+            <div class="hero-slider" id="heroSlider">
+                <div class="hero-slide active" data-project="intro-video">
+                    <div class="hero-image">
+                        <video autoplay muted loop playsinline preload="auto">
+                            <source src="videos/intro-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <h1 class="hero-title" data-i18n="home.hero.introTitle">PETER LIN</h1>
+                    </div>
+                </div>
+                <div class="hero-slide" data-project="hks-puzzle">
+                    <div class="hero-image">
+                        <img src="images/projects/hks-puzzle/hks-puzzle.png" alt="HK'S Puzzle" loading="lazy" onerror="this.src='https://via.placeholder.com/1920x1080?text=HK%27S+Puzzle'">
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <h1 class="hero-title clickable-title" data-project="hks-puzzle" data-i18n="home.hero.hksPuzzle">HK'S Puzzle</h1>
+                        <p class="hero-subtitle" data-i18n="home.hero.hksPuzzleSubtitle">Exploring urban density through innovative architecture</p>
+                    </div>
+                </div>
+                <div class="hero-slide" data-project="kenya-locust">
+                    <div class="hero-image">
+                        <video autoplay muted loop playsinline>
+                            <source src="videos/kenya-locust-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <h1 class="hero-title clickable-title" data-project="kenya-locust" data-i18n="home.hero.kenyaLocust">Kenya Locust Outbreak</h1>
+                        <p class="hero-subtitle" data-i18n="home.hero.kenyaLocustSubtitle">Architectural response to environmental crisis</p>
+                    </div>
+                </div>
+                <div class="hero-slide" data-project="mariupol-theater">
+                    <div class="hero-image">
+                        <img src="images/projects/mariupol-theater/mariupol-theater.jpg" alt="Mariupol Drama Theater" loading="lazy" onerror="this.src='https://via.placeholder.com/1920x1080?text=Mariupol+Drama+Theater'">
+                        <div class="hero-gray-overlay"></div>
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <h1 class="hero-title" data-i18n="home.hero.mariupolTheater">Mariupol Drama Theater <span class="in-progress-badge">In Progress</span></h1>
+                        <p class="hero-subtitle" data-i18n="home.hero.mariupolTheaterSubtitle">Memorial and reconstruction honoring cultural heritage</p>
+                    </div>
+                </div>
+                <div class="hero-slide" data-project="eiffel-tower">
+                    <div class="hero-image">
+                        <img src="images/projects/Reimagining the Eiffel Tower/eiffel-tower.jpg" alt="Reimagining the Eiffel Tower" loading="lazy" onerror="this.src='https://via.placeholder.com/1920x1080?text=Reimagining+the+Eiffel+Tower'">
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <h1 class="hero-title clickable-title" data-project="eiffel-tower" data-i18n="home.hero.eiffelTower">Reimagining the Eiffel Tower</h1>
+                        <p class="hero-subtitle" data-i18n="home.hero.eiffelTowerSubtitle">A contemporary vision for an iconic landmark</p>
+                    </div>
+                </div>
+                <div class="hero-slide" data-project="argentina-museum">
+                    <div class="hero-image">
+                        <img src="images/projects/argentina-museum/argentina-museum.jpg" alt="Argentina Museum of Immigrant" loading="lazy" onerror="this.src='https://via.placeholder.com/1920x1080?text=Argentina+Museum+of+Immigrant'">
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <h1 class="hero-title clickable-title" data-project="argentina-museum" data-i18n="home.hero.argentinaMuseum">Argentina Museum of Immigrant</h1>
+                        <p class="hero-subtitle" data-i18n="home.hero.argentinaMuseumSubtitle">Celebrating the stories and contributions of immigrants</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-indicators" id="heroIndicators">
+                <span class="hero-indicator active" data-index="0"></span>
+                <span class="hero-indicator" data-index="1"></span>
+                <span class="hero-indicator" data-index="2"></span>
+                <span class="hero-indicator" data-index="3"></span>
+                <span class="hero-indicator" data-index="4"></span>
+                <span class="hero-indicator" data-index="5"></span>
+            </div>
+        </section>
+        
+        <section class="featured-projects" id="art-section">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="art.title">Art</h2>
+                <p class="section-subtitle" data-i18n="art.subtitle">Creative expressions and visual explorations</p>
+            </div>
+            <div class="featured-container">
+                <div class="featured-card" data-project="about-gaza">
+                    <div class="featured-image">
+                        <video autoplay muted loop playsinline preload="auto">
+                            <source src="videos/about-gaza-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="featured-overlay">
+                            <div class="overlay-content">
+                                <h4 class="overlay-title" data-i18n="art.aboutGaza.title">About Gaza</h4>
+                                <a href="project-detail.html?project=about-gaza" class="featured-link" data-i18n="art.viewDetails">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="featured-content">
+                        <h3 data-i18n="art.aboutGaza.title">About Gaza</h3>
+                        <p data-i18n="art.aboutGaza.description">A visual narrative exploring human resilience and hope in challenging times.</p>
+                    </div>
+                </div>
+                <div class="featured-card" data-project="city-of-ego">
+                    <div class="featured-image">
+                        <img src="images/Art/cityofego.jpg" alt="City of Ego" loading="lazy" onerror="this.src='https://via.placeholder.com/800x600?text=City+of+Ego'">
+                        <div class="featured-overlay">
+                            <a href="art.html" class="featured-link" data-i18n="art.viewDetails">View Details</a>
+                        </div>
+                    </div>
+                    <div class="featured-content">
+                        <h3 data-i18n="art.cityOfEgo.title">City of Ego</h3>
+                        <p data-i18n="art.cityOfEgo.description">A visual exploration of urban identity and self-perception in contemporary society.</p>
+                    </div>
+                </div>
+                <div class="featured-card" data-project="phoenix-lab">
+                    <div class="featured-image">
+                        <img src="images/Art/Phoenix Environmental Lab/Phoenix Environmental Lab.jpg" alt="Phoenix Environmental Lab" loading="lazy" onerror="this.src='https://via.placeholder.com/800x600?text=Phoenix+Environmental+Lab'">
+                        <div class="featured-overlay">
+                            <a href="art.html" class="featured-link" data-i18n="art.viewDetails">View Details</a>
+                        </div>
+                    </div>
+                    <div class="featured-content">
+                        <h3 data-i18n="art.phoenixLab.title">Phoenix Environmental Lab</h3>
+                        <p data-i18n="art.phoenixLab.description">Architectural vision for sustainable environmental research and innovation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script src="js/gallery.js"></script>
+    <script>
+        if (typeof LanguageManager !== 'undefined') {
+            LanguageManager.init();
+        }
+    </script>
+</body>
+</html>
+

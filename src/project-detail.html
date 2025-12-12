@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>PETER LIN - Project Detail</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/detail-contact.css">
+    <link rel="stylesheet" href="css/social-share-detail.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/languages.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-brand dropdown" id="navBrand">
+            <a href="index.html" class="nav-link" id="brandLink">PETER</a>
+            <div class="dropdown-menu" id="languageMenu">
+                <a href="#" class="dropdown-item" data-lang="en" data-name="PETER">PETER</a>
+                <a href="#" class="dropdown-item" data-lang="es" data-name="PEDRO">PEDRO</a>
+                <a href="#" class="dropdown-item" data-lang="ar" data-name="بطرس">بطرس</a>
+                <a href="#" class="dropdown-item" data-lang="zh" data-name="皮特">皮特</a>
+            </div>
+        </div>
+        <div class="nav-links">
+            <div class="nav-item">
+                <a href="design.html" class="nav-link" data-i18n="nav.designer">DESIGN</a>
+            </div>
+            <div class="nav-item">
+                <a href="backpacker.html" class="nav-link" data-i18n="nav.backpacker">TRAVEL</a>
+            </div>
+            <div class="nav-item">
+                <a href="art.html" class="nav-link" data-i18n="nav.art">ART</a>
+            </div>
+            <div class="nav-item">
+                <a href="movie.html" class="nav-link" data-i18n="nav.movie">MOVIE</a>
+            </div>
+            <div class="nav-item">
+                <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Detail Content -->
+    <main class="project-detail-main">
+        <div class="detail-hero" id="detailHero">
+            <img id="heroImage" src="" alt="Project Image">
+        </div>
+        <div class="detail-content">
+            <h1 class="detail-title" id="detailTitle"></h1>
+            <div class="detail-sections" id="detailSections">
+                <!-- Sections will be dynamically loaded -->
+            </div>
+        </div>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script src="js/project-detail.js"></script>
+    <script src="js/inject-social-share.js"></script>
+    <script src="js/inject-up-next.js"></script>
+    <script src="js/inject-contact.js"></script>
+    <script>
+        if (typeof LanguageManager !== 'undefined') {
+            LanguageManager.init();
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>PETER LIN - Contact</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/languages.js"></script>
+</head>
+<body class="contact-page">
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-brand dropdown" id="navBrand">
+            <a href="index.html" class="nav-link" id="brandLink">PETER</a>
+            <div class="dropdown-menu" id="languageMenu">
+                <a href="#" class="dropdown-item" data-lang="en" data-name="PETER">PETER</a>
+                <a href="#" class="dropdown-item" data-lang="es" data-name="PEDRO">PEDRO</a>
+                <a href="#" class="dropdown-item" data-lang="ar" data-name="بطرس">بطرس</a>
+                <a href="#" class="dropdown-item" data-lang="zh" data-name="皮特">皮特</a>
+            </div>
+        </div>
+        <div class="nav-links">
+            <div class="nav-item">
+                <a href="design.html" class="nav-link" data-i18n="nav.designer">DESIGN</a>
+            </div>
+            <div class="nav-item">
+                <a href="backpacker.html" class="nav-link" data-i18n="nav.backpacker">TRAVEL</a>
+            </div>
+            <div class="nav-item">
+                <a href="art.html" class="nav-link" data-i18n="nav.art">ART</a>
+            </div>
+            <div class="nav-item">
+                <a href="movie.html" class="nav-link" data-i18n="nav.movie">MOVIE</a>
+            </div>
+            <div class="nav-item">
+                <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Content -->
+    <main class="contact-main">
+        <div class="contact-container">
+            <div class="contact-header">
+                <h1 data-i18n="contact.title">Get in Touch</h1>
+                <p class="contact-intro" data-i18n="contact.intro">I'm always open to discussing new projects, creative opportunities, or just having a conversation about design and photography.</p>
+            </div>
+            <div class="contact-info">
+                <div class="info-item">
+                    <h3 data-i18n="contact.location">Location</h3>
+                    <p>USA</p>
+                </div>
+                <div class="info-item">
+                    <h3 data-i18n="contact.email">Email</h3>
+                    <p><a href="mailto:boutros@myyahoo.com">boutros@myyahoo.com</a></p>
+                </div>
+                <div class="info-item">
+                    <h3 data-i18n="contact.social">Social Media</h3>
+                    <div class="contact-logos contact-logos--dark">
+                        <a class="contact-logo-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M15 11c-3.3 0-6 2.7-6 6v14c0 3.3 2.7 6 6 6h18c3.3 0 6-2.7 6-6V17c0-3.3-2.7-6-6-6H15Zm0 3h18c1.7 0 3 1.3 3 3v14c0 1.7-1.3 3-3 3H15c-1.7 0-3-1.3-3-3V17c0-1.7 1.3-3 3-3Zm9 4.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13Zm11.5-4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"></path>
+                            </svg>
+                        </a>
+                        <a class="contact-logo-link" href="https://www.behance.net/pedrolam" target="_blank" rel="noopener noreferrer" aria-label="Behance">
+                            <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" d="M12 14h11.5c5 0 8.8 2.9 8.8 7.1 0 2.6-1.4 4.7-3.7 5.9 3.2 1 5.5 3.9 5.5 7.4 0 5.1-4.1 8.6-9.7 8.6H12V14Zm10.5 11.1c2 0 3.6-1.2 3.6-3s-1.6-3-3.6-3H16v6h6.5Zm1.3 12.8c2.3 0 4.1-1.5 4.1-3.6 0-2.1-1.8-3.5-4.1-3.5H16v7.1h7.8Z"></path>
+                                <path fill="currentColor" d="M34 18h10v3.5H34z"></path>
+                                <path fill="currentColor" d="M34 24h7.2c4.5 0 8.8 3.3 8.8 8.4S45.7 41 41.2 41H34V24Zm7.3 12c1.8 0 3.1-1.4 3.1-3.4s-1.3-3.4-3.1-3.4h-3.3v6.8h3.3Z"></path>
+                            </svg>
+                        </a>
+                        <a class="contact-logo-link" href="https://wechat.com" target="_blank" rel="noopener noreferrer" aria-label="WeChat">
+                            <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M30 12c-7.5 0-13.5 4.8-13.5 10.8 0 3.2 1.7 6 4.5 8l-1.2 4.1 4.3-2.7c1.8.5 3.6.8 5.9.8 7.5 0 13.5-4.8 13.5-10.8S37.5 12 30 12ZM24 18.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path>
+                                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M17.7 26.8c-6.8 0-12.2 4.3-12.2 9.8 0 2.8 1.3 5.3 3.7 7.1l-.9 3.1 4.1-2.4c1.7.4 3.3.6 5 .6 6.8 0 12.2-4.3 12.2-9.8s-5.4-8.4-12.2-8.4ZM13.2 33.7a1.8 1.8 0 1 0 0 3.7 1.8 1.8 0 0 0 0-3.7Zm7 0a1.8 1.8 0 1 0 0 3.7 1.8 1.8 0 0 0 0-3.7Z"></path>
+                            </svg>
+                        </a>
+                        <a class="contact-logo-link" href="https://github.com/CHAOQUNlin/Peter-lin" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M24 7c-8.8 0-16 7.3-16 16.2 0 7.2 4.6 13.3 10.9 15.5.8.2 1.1-.3 1.1-.8v-3.4c-3.7.8-4.5-1.8-4.5-1.8-.7-1.7-1.6-2.2-1.6-2.2-1.3-.9.1-.9.1-.9 1.5.1 2.4 1.6 2.4 1.6 1.3 2.3 3.4 1.6 4.2 1.2.1-.9.5-1.6.9-2-3.3-.4-6.7-1.7-6.7-7.2 0-1.6.5-2.9 1.5-3.9-.2-.4-.7-1.9.1-3.9 0 0 1.3-.4 4.2 1.6 1.2-.3 2.4-.4 3.6-.4s2.4.1 3.6.4c3-2 4.2-1.6 4.2-1.6.8 2 .3 3.5.1 3.9 1 .9 1.5 2.3 1.5 3.9 0 5.5-3.4 6.8-6.7 7.2.5.5.9 1.4.9 2.9v4.2c0 .5.3 1 1.1.8C35.4 36.5 40 30.4 40 23.2 40 14.3 32.8 7 24 7Z"></path>
+                            </svg>
+                        </a>
+                        <a class="contact-logo-link" href="https://onlyfans.com/peterlin" target="_blank" rel="noopener noreferrer" aria-label="OnlyFans" data-haram="true">
+                            <svg class="contact-logo" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M24 10c-7.7 0-14 6.3-14 14s6.3 14 14 14 14-6.3 14-14-6.3-14-14-14Zm0 4.2c5.4 0 9.8 4.6 9.8 10.3 0 .5 0 1-.1 1.5h4.5v4.4h-7.2c-1.8 2.5-4.6 4.1-7.4 4.1-5.4 0-9.8-4.6-9.8-10.3s4.4-10 9.8-10Zm-.2 6.8c-2.8 0-5 2.3-5 5.1s2.2 5.1 5 5.1 5-2.3 5-5.1-2.2-5.1-5-5.1Zm11.5-4.4-7.6 9.5h4.6c.3-.6.5-1.6.5-2.4 0-2.8-1-5.2-2.5-7.1Z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        if (typeof LanguageManager !== 'undefined') {
+            LanguageManager.init();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            bindHaramLink();
+        });
+
+        function bindHaramLink() {
+            const haramLink = document.querySelector('[data-haram="true"]');
+            if (!haramLink) {
+                return;
+            }
+
+            haramLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                alert('Haram!');
+            });
+        }
+
+    </script>
+</body>
+</html>
+
