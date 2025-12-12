@@ -1,0 +1,103 @@
+/* Social Share Module for Detail Pages */
+
+/* Social share container - positioned below title */
+.social-share-detail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    padding: 0;
+}
+
+/* Social share button - borderless design */
+.social-share-detail-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+.social-share-detail-button:hover,
+.social-share-detail-button:focus {
+    color: #000;
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.social-share-detail-button:active {
+    transform: translateY(0);
+}
+
+/* Social share icon SVG */
+.social-share-detail-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    stroke: none;
+}
+
+.social-share-detail-icon * {
+    fill: currentColor;
+    stroke: none;
+}
+
+/* Specific button hover colors */
+.social-share-detail-button[data-platform="facebook"]:hover {
+    color: #1877f2;
+}
+
+.social-share-detail-button[data-platform="instagram"]:hover {
+    color: #e4405f;
+}
+
+.social-share-detail-button[data-platform="x"]:hover,
+.social-share-detail-button[data-platform="twitter"]:hover {
+    color: #000000;
+}
+
+.social-share-detail-button[data-platform="link"]:hover {
+    color: #666;
+}
+
+/* RTL support for Arabic */
+[dir="rtl"] .social-share-detail,
+html[lang="ar"] .social-share-detail {
+    direction: rtl;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .social-share-detail {
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .social-share-detail-button {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .social-share-detail-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+
+
+
+
+
+
+
+
