@@ -504,6 +504,7 @@ body {
 .backpacker-page .section-header {
     text-align: center;
 }
+
 .design-page .section-header .section-title,
 .design-page .section-header .section-subtitle,
 .art-page .section-header .section-title,
@@ -936,13 +937,14 @@ body {
     transform: translateX(0);
 }
 
-.story-preview-item:nth-child(even) > * {
+.story-preview-item:nth-child(even)>* {
     direction: ltr;
 }
 
 .story-preview-image {
     width: 100%;
-    height: 520px; /* +30% height for larger visual */
+    height: 520px;
+    /* +30% height for larger visual */
     overflow: hidden;
     border-radius: 10px;
 }
@@ -959,7 +961,8 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    height: 520px; /* +30% height for side-by-side sets */
+    height: 520px;
+    /* +30% height for side-by-side sets */
 }
 
 .story-preview-image.balkan-images img {
@@ -1299,7 +1302,7 @@ body {
     direction: rtl;
 }
 
-.project-card:nth-child(even) > * {
+.project-card:nth-child(even)>* {
     direction: ltr;
 }
 
@@ -1409,7 +1412,8 @@ body {
     width: 100%;
     clear: both;
     position: relative;
-    padding-left: 3rem; /* Match detail-content padding, no extra space for line */
+    padding-left: 3rem;
+    /* Match detail-content padding, no extra space for line */
 }
 
 /* Vertical line removed from section - will be on header only */
@@ -1423,12 +1427,14 @@ body {
 }
 
 .up-next-header {
-    margin-bottom: 1rem; /* Reduced from 1.75rem (43% reduction) */
+    margin-bottom: 1rem;
+    /* Reduced from 1.75rem (43% reduction) */
     text-align: left !important;
     padding-left: 0;
     margin-left: 0;
     position: relative;
-    padding-left: 1rem; /* Increased from 0.75rem - more space for vertical line (16px) */
+    padding-left: 1rem;
+    /* Increased from 0.75rem - more space for vertical line (16px) */
 }
 
 /* Vertical line - only within header title range */
@@ -1438,19 +1444,23 @@ body {
     left: 0;
     top: 0;
     bottom: auto;
-    width: 9px; /* Doubled from 4.5px - much thicker line */
+    width: 9px;
+    /* Doubled from 4.5px - much thicker line */
     background-color: #d0d0d0;
-    height: 2.16rem; /* Reduced by 20% from 2.7rem (2.7rem * 0.8 = 2.16rem) */
+    height: 2.16rem;
+    /* Reduced by 20% from 2.7rem (2.7rem * 0.8 = 2.16rem) */
 }
 
 /* Ensure header text aligns with detail-title */
 .up-next-header h2 {
     font-size: 2.25rem;
     font-weight: 700;
-    margin-bottom: 0.35rem; /* Reduced from 0.5rem (30% reduction) */
+    margin-bottom: 0.35rem;
+    /* Reduced from 0.5rem (30% reduction) */
     color: #000;
     letter-spacing: -0.02em;
-    line-height: 1.2; /* Keep normal line height for single line */
+    line-height: 1.2;
+    /* Keep normal line height for single line */
     padding-left: 0;
     margin-left: 0;
     position: relative;
@@ -1473,7 +1483,8 @@ body {
 .up-next-item {
     cursor: pointer;
     transition: transform 0.3s ease, color 0.3s ease;
-    padding: 0.65rem 0; /* Reduced from 1rem (35% reduction) */
+    padding: 0.65rem 0;
+    /* Reduced from 1rem (35% reduction) */
     text-align: left !important;
     padding-left: 0;
     margin-left: 0;
@@ -1495,12 +1506,14 @@ body {
 .up-next-content h3 {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 0.35rem; /* Reduced from 0.5rem (30% reduction) */
+    margin-bottom: 0.35rem;
+    /* Reduced from 0.5rem (30% reduction) */
     margin-top: 0;
     margin-left: 0;
     padding-left: 0;
     color: #000;
-    line-height: 1.25; /* Reduced from 1.3 for multi-line titles (1.2-1.3 range) */
+    line-height: 1.25;
+    /* Reduced from 1.3 for multi-line titles (1.2-1.3 range) */
     letter-spacing: -0.01em;
     transition: color 0.3s ease;
     text-align: left;
@@ -1515,9 +1528,11 @@ body {
 .up-next-content p {
     font-size: 1rem;
     color: #444;
-    line-height: 1.6; /* Maintained 1.5-1.6 range for readability */
+    line-height: 1.6;
+    /* Maintained 1.5-1.6 range for readability */
     font-weight: 400;
-    margin-bottom: 0.15rem; /* Reduced from 0.25rem (40% reduction) */
+    margin-bottom: 0.15rem;
+    /* Reduced from 0.25rem (40% reduction) */
     margin-top: 0;
     margin-left: 0;
     padding-left: 0;
@@ -1551,7 +1566,8 @@ html[lang="ar"] .up-next-section {
 [dir="rtl"] .up-next-header,
 html[lang="ar"] .up-next-header {
     padding-left: 0;
-    padding-right: 1rem; /* Increased to match left padding */
+    padding-right: 1rem;
+    /* Increased to match left padding */
 }
 
 [dir="rtl"] .up-next-header::before,
@@ -1589,69 +1605,82 @@ html[lang="ar"] .up-next-section {
     .up-next-header h2 {
         font-size: 2rem;
     }
-    
+
     .up-next-content h3 {
         font-size: 1.375rem;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .up-next-section {
         margin-top: 2rem;
-        padding: 1.5rem 1.5rem 1.25rem; /* Match detail-content mobile padding (2rem 1.5rem) */
+        padding: 1.5rem 1.5rem 1.25rem;
+        /* Match detail-content mobile padding (2rem 1.5rem) */
         width: 100% !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important; /* Prevent horizontal scrolling */
+        overflow-x: hidden !important;
+        /* Prevent horizontal scrolling */
     }
-    
+
     .up-next-header {
-        margin-bottom: 0.9rem; /* Reduced from 1.5rem (40% reduction) */
-        padding-left: 0.875rem; /* Increased from 0.625rem - more space on mobile (14px) */
+        margin-bottom: 0.9rem;
+        /* Reduced from 1.5rem (40% reduction) */
+        padding-left: 0.875rem;
+        /* Increased from 0.625rem - more space on mobile (14px) */
     }
-    
+
     /* Vertical line on mobile - adjust height for smaller font */
     .up-next-header::before {
-        width: 8px; /* Doubled from 4px - much thicker on mobile */
-        height: 1.8rem; /* Reduced by 20% from 2.25rem (2.25rem * 0.8 = 1.8rem) */
+        width: 8px;
+        /* Doubled from 4px - much thicker on mobile */
+        height: 1.8rem;
+        /* Reduced by 20% from 2.25rem (2.25rem * 0.8 = 1.8rem) */
     }
-    
+
     /* RTL mobile: move line to right */
     [dir="rtl"] .up-next-header,
     html[lang="ar"] .up-next-header {
         padding-left: 0;
-        padding-right: 0.875rem; /* Increased to match left padding */
+        padding-right: 0.875rem;
+        /* Increased to match left padding */
     }
-    
+
     .up-next-header h2 {
         font-size: 1.875rem;
-        margin-bottom: 0.35rem; /* Reduced from 0.5rem (30% reduction) */
+        margin-bottom: 0.35rem;
+        /* Reduced from 0.5rem (30% reduction) */
         line-height: 1.2;
     }
-    
+
     .up-next-header p {
         font-size: 0.95rem;
     }
-    
+
     .up-next-item {
-        padding: 0.6rem 0; /* Reduced from 0.875rem (31% reduction) */
+        padding: 0.6rem 0;
+        /* Reduced from 0.875rem (31% reduction) */
     }
-    
+
     .up-next-content h3 {
         font-size: 1.25rem;
-        margin-bottom: 0.25rem; /* Reduced from 0.375rem (33% reduction) */
-        line-height: 1.3; /* Slightly more on mobile for readability, still in 1.2-1.3 range */
+        margin-bottom: 0.25rem;
+        /* Reduced from 0.375rem (33% reduction) */
+        line-height: 1.3;
+        /* Slightly more on mobile for readability, still in 1.2-1.3 range */
     }
-    
+
     .up-next-content p {
         font-size: 0.9375rem;
-        line-height: 1.6; /* Maintained for readability */
-        margin-bottom: 0.15rem; /* Reduced from 0.25rem (40% reduction) */
+        line-height: 1.6;
+        /* Maintained for readability */
+        margin-bottom: 0.15rem;
+        /* Reduced from 0.25rem (40% reduction) */
     }
-    
+
     .up-next-meta {
         font-size: 0.8125rem;
     }
-    
+
     .up-next-grid {
         grid-template-columns: 1fr;
         gap: 0;
@@ -1659,7 +1688,8 @@ html[lang="ar"] .up-next-section {
 }
 
 /* Ensure Up Next matches detail-content padding on mobile */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
+
     /* Mobile detail page text content - fixed 0.6rem margin from borders */
     .detail-content {
         padding: 0.6rem;
@@ -1717,8 +1747,8 @@ html[lang="ar"] .up-next-section {
 
     /* Mobile image carousel - convert side-by-side images to single sliding view */
     /* Target: grid containers with multiple images (2 or 3 images side by side) in magazine content */
-    .magazine div[style*="grid-template-columns: repeat(2, 1fr)"],
-    .magazine div[style*="grid-template-columns: repeat(3, 1fr)"] {
+    .magazine .grid-2-col,
+    .magazine .grid-3-col {
         /* Convert grid to horizontal scrolling carousel */
         display: flex !important;
         flex-wrap: nowrap !important;
@@ -1728,27 +1758,32 @@ html[lang="ar"] .up-next-section {
         scroll-behavior: smooth !important;
         gap: 0 !important;
         padding: 0 !important;
-        margin: 2rem 0 !important; /* Normal margin, stay within magazine boundaries */
+        margin: 2rem 0 !important;
+        /* Normal margin, stay within magazine boundaries */
         position: relative !important;
-        width: 100% !important; /* Full width of magazine container */
+        width: 100% !important;
+        /* Full width of magazine container */
         box-sizing: border-box !important;
 
         /* Enhanced touch support for mobile scrolling */
-        touch-action: pan-x pinch-zoom !important; /* Allow horizontal panning and pinch zoom */
+        touch-action: pan-x pinch-zoom !important;
+        /* Allow horizontal panning and pinch zoom */
         -webkit-overflow-scrolling: touch !important;
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
     }
 
     /* Hide scrollbars for carousel */
-    .magazine div[style*="grid-template-columns: repeat(2, 1fr)"]::-webkit-scrollbar,
-    .magazine div[style*="grid-template-columns: repeat(3, 1fr)"]::-webkit-scrollbar {
+    .magazine .grid-2-col::-webkit-scrollbar,
+    .magazine .grid-3-col::-webkit-scrollbar {
         display: none !important;
     }
 
     /* Individual image containers in carousel - single image per view */
-    .magazine div[style*="grid-template-columns"] > div {
-        flex: 0 0 100% !important; /* 100% of carousel container width */
+    .magazine .grid-2-col>div,
+    .magazine .grid-3-col>div {
+        flex: 0 0 100% !important;
+        /* 100% of carousel container width */
         overflow: hidden !important;
         border-radius: 10px !important;
         background: #f0f0f0 !important;
@@ -1762,39 +1797,40 @@ html[lang="ar"] .up-next-section {
     }
 
     /* Maintain aspect ratios for different image counts */
-    .magazine div[style*="grid-template-columns: repeat(2, 1fr)"] > div {
+    .magazine .grid-2-col>div {
         aspect-ratio: 3/2 !important;
     }
 
-    .magazine div[style*="grid-template-columns: repeat(3, 1fr)"] > div {
+    .magazine .grid-3-col>div {
         aspect-ratio: 4/3 !important;
     }
 
     /* Images within carousel containers */
-    .magazine div[style*="grid-template-columns"] > div img {
+    .magazine .grid-2-col>div img,
+    .magazine .grid-3-col>div img {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
         display: block !important;
         border-radius: 10px !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
     }
 
     /* Add visual hint for scrollable content */
-    .magazine div[style*="grid-template-columns: repeat(2, 1fr)"]::before,
-    .magazine div[style*="grid-template-columns: repeat(3, 1fr)"]::before {
+    .magazine .grid-2-col::before,
+    .magazine .grid-3-col::before {
         content: '⟨⟩' !important;
         position: absolute !important;
         top: 50% !important;
         right: 15px !important;
         transform: translateY(-50%) !important;
         font-size: 16px !important;
-        color: rgba(0,0,0,0.3) !important;
+        color: rgba(0, 0, 0, 0.3) !important;
         pointer-events: none !important;
         z-index: 5 !important;
         font-weight: bold !important;
     }
-    
+
     .up-next-section {
         padding: 1.5rem 1.5rem;
     }
@@ -1825,18 +1861,22 @@ html[lang="ar"] .up-next-section {
     /* Mobile detail contact icons - 2-row layout */
     .detail-contact-icons {
         display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important; /* 3 buttons per row */
-        gap: 0.75rem 0.5rem !important; /* Reduced horizontal gap, normal vertical gap */
+        grid-template-columns: repeat(3, 1fr) !important;
+        /* 3 buttons per row */
+        gap: 0.75rem 0.5rem !important;
+        /* Reduced horizontal gap, normal vertical gap */
         justify-items: center !important;
         padding: 0.5rem !important;
     }
 
     .detail-contact-icon-link {
-        padding: 0.5rem !important; /* Comfortable touch target */
+        padding: 0.5rem !important;
+        /* Comfortable touch target */
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        min-width: 2.5rem !important; /* Ensure good touch target */
+        min-width: 2.5rem !important;
+        /* Ensure good touch target */
         min-height: 2.5rem !important;
         transition: transform 0.2s ease !important;
     }
@@ -1846,7 +1886,8 @@ html[lang="ar"] .up-next-section {
     }
 
     .detail-contact-icon {
-        width: 22px !important; /* Slightly larger for better visibility */
+        width: 22px !important;
+        /* Slightly larger for better visibility */
         height: 22px !important;
     }
 }
@@ -1911,12 +1952,12 @@ html[lang="ar"] .up-next-section {
     overflow: visible;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .magazine {
         padding: 0 1.5rem;
         font-size: 15px;
     }
-    
+
     .magazine .lead {
         font-size: 17px;
     }
@@ -1950,6 +1991,7 @@ html[lang="ar"] .up-next-section {
     justify-content: center;
     align-items: center;
 }
+
 .design-page .section-header .section-title,
 .design-page .section-header .section-subtitle,
 .art-page .section-header .section-title,
@@ -2180,7 +2222,7 @@ html[lang="ar"] .up-next-section {
     direction: rtl;
 }
 
-.story-item:nth-child(even) > * {
+.story-item:nth-child(even)>* {
     direction: ltr;
 }
 
@@ -2342,7 +2384,8 @@ html[lang="ar"] .up-next-section {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
+
     /* Mobile Reading Direction Optimization */
     /* LTR languages (English, Spanish, Chinese) - left-aligned */
     html[lang="en"],
@@ -2461,7 +2504,12 @@ html[lang="ar"] .up-next-section {
     }
 
     /* Mobile headings optimization */
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         line-height: 1.3;
         margin-bottom: 1rem;
     }
@@ -2481,7 +2529,8 @@ html[lang="ar"] .up-next-section {
     }
 
     /* Mobile list optimization */
-    ul, ol {
+    ul,
+    ol {
         line-height: 1.7;
         margin-bottom: 1.2rem;
     }
@@ -2575,7 +2624,7 @@ html[lang="ar"] .up-next-section {
         flex-shrink: 0 !important;
         position: relative !important;
     }
-    
+
     /* Brand button - touch friendly size (min 44px) */
     .nav-brand .nav-link {
         min-height: 44px !important;
@@ -2609,11 +2658,12 @@ html[lang="ar"] .up-next-section {
         overflow-y: visible !important;
         flex: 0 1 auto !important;
         min-width: 0 !important;
-        transition: margin-top 0.3s ease !important; /* Smooth push down animation */
+        transition: margin-top 0.3s ease !important;
+        /* Smooth push down animation */
     }
-    
+
     /* Push down nav-links when accordion is expanded */
-    .nav-brand.expanded ~ .nav-links {
+    .nav-brand.expanded~.nav-links {
         margin-top: 0.5rem !important;
     }
 
@@ -2689,12 +2739,13 @@ html[lang="ar"] .up-next-section {
         align-items: center !important;
         justify-content: flex-start !important;
     }
-    
+
     /* Accordion expanded state */
     .nav-brand.expanded .dropdown-menu {
         opacity: 1 !important;
         visibility: visible !important;
-        max-height: 60px !important; /* Single row height */
+        max-height: 60px !important;
+        /* Single row height */
         margin-top: 0.5rem !important;
         padding: 0.5rem 0.75rem !important;
     }
@@ -2721,20 +2772,22 @@ html[lang="ar"] .up-next-section {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        min-height: 44px !important; /* Touch friendly size */
+        min-height: 44px !important;
+        /* Touch friendly size */
         min-width: fit-content !important;
-        flex-shrink: 0 !important; /* Prevent shrinking */
+        flex-shrink: 0 !important;
+        /* Prevent shrinking */
         cursor: pointer !important;
         transition: background-color 0.2s ease !important;
         border-radius: 4px !important;
     }
-    
+
     .dropdown-item:hover,
     .dropdown-item:focus {
         background-color: rgba(0, 0, 0, 0.05) !important;
         outline: none !important;
     }
-    
+
     .dropdown-item:active {
         background-color: rgba(0, 0, 0, 0.1) !important;
     }
@@ -3100,7 +3153,11 @@ html[lang="ar"] .up-next-section {
     }
 
     /* Ensure block elements use full width for centering */
-    h1, h2, h3, h4, p {
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
         width: 100%;
     }
 
@@ -3127,7 +3184,7 @@ html[lang="ar"] .up-next-section {
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1rem;
     }
@@ -3211,7 +3268,7 @@ html[lang="ar"] .up-next-section {
         flex-direction: column !important;
         gap: 0.625rem !important;
     }
-    
+
     .nav-links .nav-link {
         font-size: 0.75rem !important;
         padding: 0.35rem 0.4rem !important;
@@ -3221,6 +3278,7 @@ html[lang="ar"] .up-next-section {
 /* 桌面端手风琴效果 - 确保在所有尺寸下都支持手风琴和单行显示 */
 /* 使用更高优先级，覆盖内联样式 */
 @media (min-width: 801px) {
+
     /* 桌面端导航栏保持单行显示 */
     .main-nav {
         display: flex !important;
@@ -3228,7 +3286,7 @@ html[lang="ar"] .up-next-section {
         align-items: center !important;
         justify-content: space-between !important;
     }
-    
+
     /* 桌面端手风琴展开状态 - 单行水平显示 */
     /* 使用更高的选择器优先级覆盖内联样式 */
     #navBrand.expanded #languageMenu,
@@ -3255,12 +3313,12 @@ html[lang="ar"] .up-next-section {
         overflow: visible !important;
         transform: translateY(0) !important;
     }
-    
+
     /* 确保导航栏单行显示 */
-    .nav-brand.expanded ~ .nav-links {
+    .nav-brand.expanded~.nav-links {
         margin-top: 0 !important;
     }
-    
+
     /* 桌面端下拉菜单项样式 */
     #navBrand.expanded #languageMenu .dropdown-item,
     .nav-brand.expanded .dropdown-item {
@@ -3273,6 +3331,7 @@ html[lang="ar"] .up-next-section {
 
 /* 移动端手风琴效果 - 确保在所有尺寸下都支持 */
 @media (max-width: 800px) {
+
     /* 移动端手风琴展开状态也需要确保正确显示 */
     #navBrand.expanded #languageMenu,
     .nav-brand.expanded .dropdown-menu,
@@ -3285,4 +3344,3 @@ html[lang="ar"] .up-next-section {
         transform: none !important;
     }
 }
-
